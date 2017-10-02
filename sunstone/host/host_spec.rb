@@ -5,10 +5,12 @@ RSpec.describe "Create Host test" do
 
         @auth = {
             :username => "oneadmin",
-            :password => "mypassword"
+            :password => "opennebula"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
+
+        @wait = Selenium::WebDriver::Wait.new(:timeout => 15)
     end
 
     after(:all) do
@@ -18,14 +20,25 @@ RSpec.describe "Create Host test" do
     it "Create host" do
         element = $driver.find_element(:id, "menu-toggle")
         element.click if element.displayed?
- 
-        element = $driver.find_element(:id, "li_infrastructure-top-tab")
+
+        @wait.until {
+           element = $driver.find_element(:id, "li_infrastructure-top-tab")
+           element if element.displayed?
+        }
+        element.click
+
+        @wait.until {
+            element = $driver.find_element(:id, "li_hosts-tab")
+            element if element.displayed?
+        }
         element.click if element.displayed?
 
-        $driver.find_element(:id, "li_hosts-tab").click
+        @wait.until {
+            element = $driver.find_element(:id, "hosts-tabcreate_buttons")
+            element if element.displayed?
+        }
+        element.find_element(:class, "create_dialog_button").click if element.displayed?
 
-        element = $driver.find_element(:id, "hosts-tabcreate_buttons button")
-        element.click if element.displayed?
     end
 
 end

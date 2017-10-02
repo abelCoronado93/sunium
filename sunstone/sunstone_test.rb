@@ -5,7 +5,7 @@ require 'rspec'
 class SunstoneTest
 
     def initialize(auth)
-        $driver = Selenium::WebDriver.for :firefox
+        $driver = Selenium::WebDriver.for :chrome
         $driver.get "http://localhost:9869"
         
         @auth = auth

@@ -1,11 +1,11 @@
 require './sunstone/sunstone_test'
 
-RSpec.describe "Create Host test" do
+RSpec.describe "Create Network test" do
     before(:all) do
 
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -21,51 +21,27 @@ RSpec.describe "Create Host test" do
         element = $driver.find_element(:id, "menu-toggle")
         element.click if element.displayed?
 
-        @wait.until {
-           element = $driver.find_element(:id, "li_network-top-tab")
-           element if element.displayed?
-        }
-        element.click
+        @sunstone_test.get_element_by_id("li_network-top-tab").click
 
-        @wait.until {
-            element = $driver.find_element(:id, "li_vnets-tab")
-            element if element.displayed?
-        }
-        element.click if element.displayed?
+        @sunstone_test.get_element_by_id("li_vnets-tab").click
 
-        @wait.until {
-            element = $driver.find_element(:id, "vnets-tabcreate_buttons")
-            element if element.displayed?
-        }
+        element = @sunstone_test.get_element_by_id("vnets-tabcreate_buttons")
+
         element.find_element(:class, "create_dialog_button").click if element.displayed?
 
-        @wait.until {
-            $driver.find_element(:id, "name")
-        }
-        element = $driver.find_element(:id, "name")
-        element.send_keys("test")
+        @sunstone_test.get_element_by_id("name").send_keys "test"
 
-        element = $driver.find_element(:id, "vnetCreateBridgeTab-label").click
-        @wait.until {
-            $driver.find_element(:id, "bridge")
-        }
-        element = $driver.find_element(:id, "bridge")
-        element.send_keys("br0")
+        @sunstone_test.get_element_by_id("vnetCreateBridgeTab-label").click
+        @sunstone_test.get_element_by_id("bridge").send_keys "br0"
 
-        element = $driver.find_element(:id, "vnetCreateARTab-label").click
-        @wait.until {
-            element = $driver.find_element(:id, "vnet_wizard_ar_tabs")
-        }
-        element = $driver.find_element(:id, "ar0_ip_start")
-        element.send_keys("192.168.0.1")
-        element = $driver.find_element(:id, "ar0_size")
-        element.send_keys("100")
+        @sunstone_test.get_element_by_id("vnetCreateARTab-label").click
+        @sunstone_test.get_element_by_id("vnet_wizard_ar_tabs")
 
-        
-        element = $driver.find_element(:class, "submit_button")
-        element.click if element.displayed?
+        @sunstone_test.get_element_by_id("ar0_ip_start").send_keys "192.168.0.1"
+        @sunstone_test.get_element_by_id("ar0_size").send_keys "100"
 
-        @sunstone_test.js_errors?
+        element = @sunstone_test.get_element_by_id("vnets-tabsubmit_button")
+        element.find_element(:class, "submit_button").click if element.displayed?
     end
 
 end

@@ -67,4 +67,21 @@ class SunstoneTest
         element = $driver.find_element(:id, "jGrowl")
         element.find_element(:class, "create_dialog_button").click if element.displayed?
     end
+
+    def get_element_by_id(id)
+        wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+        wait.until {
+            element = $driver.find_element(:id, id)
+            return element if element.displayed?
+        }
+    end
+
+    def get_element_by_name(name)
+        wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+        wait.until {
+            element = $driver.find_element(:name, name)
+
+            return element if element.displayed?
+        }
+    end
 end

@@ -64,6 +64,8 @@ RSpec.describe "Create Host test" do
         
         element = $driver.find_element(:class, "submit_button")
         element.click if element.displayed?
+
+        @sunstone_test.js_errors?
     end
 
 end

@@ -39,4 +39,32 @@ class SunstoneTest
 
         $driver.quit
     end
+
+    def js_errors?
+        js_console_log = $driver.manage.logs.get("browser")
+        messages = []
+        js_console_log.each do |item|
+            if item.level == "SEVERE" and !item.message.include? "Unauthorized"
+                messages << item.message
+            end
+        end
+        if messages.length > 0
+            messages.each do |message|
+                fail "js console error: '#{message}'" if message.length > 0
+            end
+            true
+        else
+            false
+        end
+    end
+
+    def core_logs
+        wait = Selenium::WebDriver::Wait.new(:timeout => 20)
+
+        wait.until {
+           $driver.find_element(:id, "jGrowl")
+        }
+        element = $driver.find_element(:id, "jGrowl")
+        element.find_element(:class, "create_dialog_button").click if element.displayed?
+    end
 end

@@ -1,4 +1,5 @@
 require './sunstone/Utils'
+
 class Host
 
     def initialize(sunstone_test)

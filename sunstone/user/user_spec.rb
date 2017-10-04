@@ -1,16 +1,16 @@
 require './sunstone/sunstone_test'
-require './sunstone/host/Host'
+require './sunstone/user/User'
 
-RSpec.describe "Host test" do
+RSpec.describe "User test" do
 
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
-        @host = Host.new(@sunstone_test)
+        @user = User.new(@sunstone_test)
         @wait = Selenium::WebDriver::Wait.new(:timeout => 15)
     end
 
@@ -18,11 +18,9 @@ RSpec.describe "Host test" do
         @sunstone_test.sign_out
     end
 
-    it "Create four hosts" do
-        @host.create_dummy("test1_dummy")
-        @host.create_dummy("test2_dummy")
-        @host.create_kvm("test1_kvm")
-        @host.create_kvm("test2_kvm")
+    it "Create two users" do
+        @user.create_user("John", false)
+        @user.create_user("Doe", true)
     end
 
 end

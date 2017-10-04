@@ -1,16 +1,16 @@
 require './sunstone/sunstone_test'
-require './sunstone/host/Host'
+require './sunstone/group/Group'
 
-RSpec.describe "Host test" do
+RSpec.describe "Group test" do
 
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
-        @host = Host.new(@sunstone_test)
+        @group = Group.new(@sunstone_test)
     end
 
     after(:all) do
@@ -18,10 +18,7 @@ RSpec.describe "Host test" do
     end
 
     it "Create four hosts" do
-        @host.create_dummy("test1_dummy")
-        @host.create_dummy("test2_dummy")
-        @host.create_kvm("test1_kvm")
-        @host.create_kvm("test2_kvm")
+        @group.create("test")
     end
 
 end

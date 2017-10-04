@@ -1,7 +1,7 @@
 require './sunstone/sunstone_test'
-require './sunstone/cluster/Cluster'
+require './sunstone/acl/Acl'
 
-RSpec.describe "Cluster test" do
+RSpec.describe "Acl test" do
 
     before(:all) do
         @auth = {
@@ -10,15 +10,15 @@ RSpec.describe "Cluster test" do
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
-        @cluster = Cluster.new(@sunstone_test)
+        @acl = Acl.new(@sunstone_test)
     end
 
     after(:all) do
         @sunstone_test.sign_out
     end
 
-    it "Create cluster" do
-        @cluster.create("test1", 1, 1, 1)
+    it "Create acl" do
+        @acl.create("all", ["host","image"], "all", ["manage"])
     end
 
 end

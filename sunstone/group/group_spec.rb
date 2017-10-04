@@ -17,7 +17,7 @@ RSpec.describe "Group test" do
         @sunstone_test.sign_out
     end
 
-    it "Create four hosts" do
+    it "Create one group" do
         @group.create("test")
     end
 

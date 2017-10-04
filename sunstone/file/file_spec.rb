@@ -18,11 +18,11 @@ RSpec.describe "File test" do
     end
 
     it "Create one kernel file" do
-        
+        @file.create("test_kernel", "Kernel", ".")
     end
 
     it "Create one context file" do
-        
+        @file.create("test_context", "Context", ".")
     end
 
 end

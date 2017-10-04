@@ -9,14 +9,16 @@ class File
         @utils = Utils.new(sunstone_test)
     end
 
-    def create_kernel(name)
+    def create(name, type, path)
         @utils.navigate_create(@general_tag, @resource_tag)
 
-        @utils.submit_create(@resource_tag)
-    end
+        @sunstone_test.get_element_by_id("img_name").send_keys "#{name}"
 
-    def create_context(name)
-        @utils.navigate_create(@general_tag, @resource_tag)
+        dropdown = @sunstone_test.get_element_by_id("img_type")
+        options = dropdown.find_elements(tag_name: 'option')
+        options.each { |option| option.click if option.text == "#{type}" }
+
+        @sunstone_test.get_element_by_id("img_path").send_keys "#{path}"
 
         @utils.submit_create(@resource_tag)
     end

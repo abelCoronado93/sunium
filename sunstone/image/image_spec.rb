@@ -6,7 +6,7 @@ RSpec.describe "Image test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "mypassword"
+            :password => "opennebula"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -18,11 +18,11 @@ RSpec.describe "Image test" do
     end
 
     it "Create one OS image" do
-        @image.create_path("test_os", "Operating System image", ".")
+        @image.create_path("test_os", "OS", ".")
     end
 
     it "Create one context file" do
-        @image.create_empty("test_datablock", "Generic storage datablock", "1")
+        @image.create_empty("test_datablock", "DATABLOCK", "1")
     end
 
 end

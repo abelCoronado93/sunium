@@ -84,9 +84,9 @@ class SunstoneTest
         }
     end
 
-    def click_option(dropdown, name_option)
+    def click_option(dropdown, attr, value)
         options = dropdown.find_elements(tag_name: 'option')
-        options.each { |option| option.click if option.text == "#{name_option}" }
+        options.each { |option| option.click if option.attribute("#{attr}") == "#{value}" }
     end
 
 end

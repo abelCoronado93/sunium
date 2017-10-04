@@ -1,7 +1,7 @@
 require './sunstone/sunstone_test'
-require './sunstone/file/File'
+require './sunstone/cluster/Cluster'
 
-RSpec.describe "File test" do
+RSpec.describe "Cluster test" do
 
     before(:all) do
         @auth = {
@@ -10,19 +10,15 @@ RSpec.describe "File test" do
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
-        @file = File.new(@sunstone_test)
+        @cluster = Cluster.new(@sunstone_test)
     end
 
     after(:all) do
         @sunstone_test.sign_out
     end
 
-    it "Create one kernel file" do
-        @file.create("test_kernel", "KERNEL", ".")
-    end
-
-    it "Create one context file" do
-        @file.create("test_context", "CONTEXT", ".")
+    it "Create datastore" do
+        @cluster.create("test1", 1, 1, 1)
     end
 
 end

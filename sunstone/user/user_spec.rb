@@ -18,8 +18,12 @@ RSpec.describe "User test" do
         @sunstone_test.sign_out
     end
 
-    it "Create two users" do
+    it "Create two normal user" do
         @user.create_user("John", false)
+        @user.create_user("Paul", false)
+    end
+
+    it "Create one admin user" do
         @user.create_user("Doe", true)
     end
 

@@ -28,7 +28,7 @@ class SunstoneTest
     end
 
     def sign_out
-        $driver.find_element(:class, "username").click
+        self.get_element_by_id("userselector").click
         $driver.find_element(:class, "logout").click
         
         wait = Selenium::WebDriver::Wait.new(:timeout => 15)
@@ -85,7 +85,7 @@ class SunstoneTest
     end
 
     def click_option(dropdown, attr, value)
-        options = dropdown.find_elements(tag_name: 'option')
+        options = dropdown.find_elements(tag_name: "option")
         options.each { |option| option.click if option.attribute("#{attr}") == "#{value}" }
     end
 

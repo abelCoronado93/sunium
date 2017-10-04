@@ -80,8 +80,13 @@ class SunstoneTest
         wait = Selenium::WebDriver::Wait.new(:timeout => 10)
         wait.until {
             element = $driver.find_element(:name, name)
-
             return element if element.displayed?
         }
     end
+
+    def click_option(dropdown, name_option)
+        options = dropdown.find_elements(tag_name: 'option')
+        options.each { |option| option.click if option.text == "#{name_option}" }
+    end
+
 end

@@ -12,9 +12,8 @@ class Host
     def create_dummy(name)
         @utils.navigate_create(@general_tag, @resource_tag)
 
-        dropdown_list = @sunstone_test.get_element_by_id("host_type_mad")
-        options = dropdown_list.find_elements(tag_name: 'option')
-        options.each { |option| option.click if option.text == "Custom" }
+        dropdown = @sunstone_test.get_element_by_id("host_type_mad")
+        @sunstone_test.click_option(dropdown, "Custom")
 
         @sunstone_test.get_element_by_id("name").send_keys "#{name}"
 

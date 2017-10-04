@@ -15,8 +15,7 @@ class File
         @sunstone_test.get_element_by_id("img_name").send_keys "#{name}"
 
         dropdown = @sunstone_test.get_element_by_id("img_type")
-        options = dropdown.find_elements(tag_name: 'option')
-        options.each { |option| option.click if option.text == "#{type}" }
+        @sunstone_test.click_option(dropdown, type)
 
         @sunstone_test.get_element_by_id("img_path").send_keys "#{path}"
 

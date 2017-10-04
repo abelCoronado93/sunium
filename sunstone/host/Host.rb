@@ -1,34 +1,34 @@
-require 'rubygems'
-require 'selenium-webdriver'
-require 'rspec'
-
+require './sunstone/Utils'
 class Host
 
-    def initialize()
+    def initialize(sunstone_test)
         @general_tag = "infrastructure"
         @resource_tag = "hosts"
+        @sunstone_test = sunstone_test
+        @utils = Utils.new(sunstone_test)
     end
 
-    def create
-        element = $driver.find_element(:id, "menu-toggle")
-        element.click if element.displayed?
+    def create_dummy(name)
+        @utils.navigate_create(@general_tag, @resource_tag)
 
-        @wait.until {
-           element = $driver.find_element(:id, "li_#{@general_tag}-top-tab")
-           element if element.displayed?
-        }
-        element.click
+        dropdown_list = @sunstone_test.get_element_by_id("host_type_mad")
+        options = dropdown_list.find_elements(tag_name: 'option')
+        options.each { |option| option.click if option.text == "Custom" }
 
-        @wait.until {
-            element = $driver.find_element(:id, "li_#{@resource_tag}-tab")
-            element if element.displayed?
-        }
-        element.click if element.displayed?
+        @sunstone_test.get_element_by_id("name").send_keys "#{name}"
 
-        @wait.until {
-            element = $driver.find_element(:id, "#{@resource_tag}-tabcreate_buttons")
-            element if element.displayed?
-        }
-        element.find_element(:class, "create_dialog_button").click if element.displayed?
+        @sunstone_test.get_element_by_name("custom_vmm_mad").send_keys "dummy"
+        @sunstone_test.get_element_by_name("custom_im_mad").send_keys "dummy"
+
+        @utils.submit_create(@resource_tag)
     end
+
+    def create_kvm(name)
+        @utils.navigate_create(@general_tag, @resource_tag)
+
+        @sunstone_test.get_element_by_id("name").send_keys "#{name}"
+
+        @utils.submit_create(@resource_tag)
+    end
+
 end

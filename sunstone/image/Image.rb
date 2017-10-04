@@ -15,7 +15,7 @@ class Image
         @sunstone_test.get_element_by_id("img_name").send_keys "#{name}"
 
         dropdown = @sunstone_test.get_element_by_id("img_type")
-        @sunstone_test.click_option(dropdown, type)
+        @sunstone_test.click_option(dropdown, "value", type)
 
         @sunstone_test.get_element_by_id("path_image").click
 
@@ -30,7 +30,7 @@ class Image
         @sunstone_test.get_element_by_id("img_name").send_keys "#{name}"
 
         dropdown = @sunstone_test.get_element_by_id("img_type")
-        @sunstone_test.click_option(dropdown, type)
+        @sunstone_test.click_option(dropdown, "value", type)
 
         @sunstone_test.get_element_by_id("datablock_img").click
 

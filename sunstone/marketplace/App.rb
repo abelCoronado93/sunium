@@ -1,5 +1,5 @@
 require './sunstone/Utils'
-require 'pry'
+
 class App
 
     def initialize(sunstone_test)

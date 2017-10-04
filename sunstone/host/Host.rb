@@ -13,7 +13,7 @@ class Host
         @utils.navigate_create(@general_tag, @resource_tag)
 
         dropdown = @sunstone_test.get_element_by_id("host_type_mad")
-        @sunstone_test.click_option(dropdown, "Custom")
+        @sunstone_test.click_option(dropdown, "value", "custom")
 
         @sunstone_test.get_element_by_id("name").send_keys "#{name}"
 

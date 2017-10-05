@@ -21,4 +21,13 @@ RSpec.describe "Datastore test" do
         @ds.create("test1", "ssh", "system")
     end
 
+    it "check datastore" do
+        hash_info=[
+            {key:"TM_MAD", value:"ssh"},
+            {key:"Type", value:"SYSTEM"}
+        ]
+
+        @ds.check("test1", hash_info)
+    end
+
 end

@@ -18,7 +18,20 @@ RSpec.describe "Cluster test" do
     end
 
     it "Create cluster" do
-        @cluster.create("test1", 1, 1, 1)
+        hosts = ["30"]
+        vnets = ["17"]
+        ds = ["102"]
+        @cluster.create("test1", hosts, vnets, ds)
+    end
+
+    it "check cluster" do
+        hash_info={ 
+            hosts: ["30"],
+            vnets: ["17"],
+            ds: ["102"]
+        }
+
+        @cluster.check("test1", hash_info)
     end
 
 end

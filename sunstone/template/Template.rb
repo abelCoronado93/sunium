@@ -5,6 +5,7 @@ class Template
     def initialize(sunstone_test)
         @general_tag = "templates"
         @resource_tag = "templates"
+        @datatable = "dataTableTemplates"
         @sunstone_test = sunstone_test
         @utils = Utils.new(sunstone_test)
     end

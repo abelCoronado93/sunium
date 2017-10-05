@@ -26,20 +26,38 @@ class Utils
     def submit_create(resource)
         element = @sunstone_test.get_element_by_id("#{resource}-tabsubmit_button")
         element.find_element(:class, "submit_button").click if element.displayed?
-        sleep 1
+        sleep 2
     end
 
-    def check_exists(name, datatable)
+    def check_exists(num_col = 2, compare, datatable)
         table = @sunstone_test.get_element_by_id("#{datatable}")
         tr_table = table.find_elements(tag_name: 'tr')
         tr_table.each { |tr|
             td = tr.find_elements(tag_name: "td")
             if td.length > 0 && td[0].text != "There is no data available"
-                if name == td[2].text
+                if compare == td[num_col].text
                     return tr
                 end
             end
         }
         return false
+    end
+
+    def check_elements(tr_table, hash)
+        tr_table.each { |tr|
+            td = tr.find_elements(tag_name: "td")
+            if td.length > 0
+                hash.each{ |obj|
+                    if obj[:key] == td[0].text && obj[:value] != td[1].text
+                        puts "Check fail: #{obj[:key]} : #{obj[:value]}"
+                        fail
+                        break
+                    elsif obj[:key] == td[0].text && obj[:value] == td[1].text
+                        hash.delete(obj)
+                    end
+                }
+            end
+        }
+        return hash
     end
 end

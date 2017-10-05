@@ -47,21 +47,8 @@ class Host
         div = @sunstone_test.get_element_by_id("host_info_tab")
         table = div.find_elements(:class, "dataTable")
         tr_table = table[0].find_elements(tag_name: 'tr')
-        tr_table.each { |tr|
-            td = tr.find_elements(tag_name: "td")
-            if td.length > 0
-                hash.each{ |obj|
-                    binding.pry
-                    if obj[:key] == td[0].text && obj[:value] != td[1].text
-                        puts "Check fail: #{obj[:key]} : #{obj[:value]}"
-                        fail
-                        break
-                    elsif obj[:key] == td[0].text && obj[:value] == td[1].text
-                        hash.delete(obj)
-                    end
-                }
-            end
-        }
+        hash = @utils.check_elements(tr_table, hash)
+
         if !hash.empty?
             puts "Check fail: Not Found all keys"
             hash.each{ |obj| puts "#{obj[:key]} : #{obj[:key]}" }

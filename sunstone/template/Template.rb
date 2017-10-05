@@ -70,4 +70,25 @@ class Template
         end
     end
 
+    def add_network(json)
+        @sunstone_test.get_element_by_id("networkTabone3-label").click
+        i = 1
+        if json[:vnet]
+            json[:vnet].each { |id|
+                div = $driver.find_element(:xpath, "//div[@nicid='#{i}']")
+                table = div.find_element(tag_name: "table")
+                tr_table = table.find_elements(tag_name: "tr")
+                tr_table.each { |tr|
+                    td = tr.find_elements(tag_name: "td")
+                    if td.length > 0
+                        tr.click if id.include? td[0].text
+                    end
+                }
+                @sunstone_test.get_element_by_id("tf_btn_nics").click
+                i+=1
+            }
+        end
+
+    end
+
 end

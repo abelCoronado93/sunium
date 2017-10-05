@@ -32,4 +32,17 @@ RSpec.describe "Template test" do
         @template.add_storage(hash)
         @template.submit
     end
+
+    it "Create one template with vnets" do
+        @template.navigate
+
+        hash = { name: "test2", mem: "3", cpu: "0.2" }
+        @template.add_general(hash)
+
+        hash = { vnet: [ "1" ] }
+        @template.add_network(hash)
+
+        @template.submit
+    end
+
 end

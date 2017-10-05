@@ -1,5 +1,4 @@
 require './sunstone/Utils'
-require 'pry'
 
 class Host
 
@@ -60,7 +59,6 @@ class Host
                 }
             end
         }
-        sleep 10
     end
 
 end

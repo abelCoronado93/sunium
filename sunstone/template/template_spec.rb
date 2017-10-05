@@ -28,7 +28,8 @@ RSpec.describe "Template test" do
         @template.navigate
         hash = { name: "test1", mem: "3", cpu: "0.2" }
         @template.add_general(hash)
-        hash = { image: [ "0", "11" ], volatile: { size: "2", type: "fs", format: "qcow2" } }
+        hash = { image: [ "0", "11" ], volatile: [{ size: "2", type: "fs", format: "qcow2" }] }
         @template.add_storage(hash)
+        @template.submit
     end
 end

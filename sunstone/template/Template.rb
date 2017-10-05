@@ -33,11 +33,11 @@ class Template
 
     def add_storage(json)
         @sunstone_test.get_element_by_id("storageTabone2-label").click
+        i = 1
         if json[:image]
-            i = 1
             json[:image].each { |id|
-                div = $driver.find_element(:xpath, "//div[@diskid='#{i}']")                
-                div.find_element(:xpath, "//input[@value='image']").click
+                div = $driver.find_element(:xpath, "//div[@diskid='#{i}']")
+                div.find_element(:xpath, "//div[@diskid='#{i}']//Input[@value='image']").click
                 table = div.find_element(tag_name: "table")
                 tr_table = table.find_elements(tag_name: "tr")
                 tr_table.each { |tr|
@@ -45,8 +45,25 @@ class Template
                     if td.length > 0
                         tr.click if id.include? td[0].text
                     end
-                    
                 }
+                @sunstone_test.get_element_by_id("tf_btn_disks").click
+                i+=1
+            }
+        end
+
+        if json[:volatile]
+            json[:volatile].each { |disk|
+                div = $driver.find_element(:xpath, "//div[@diskid='#{i}']")
+                div.find_element(:xpath, "//div[@diskid='#{i}']//Input[@value='volatile']").click
+                div.find_element(:xpath, "//div[@diskid='#{i}']//div[@class='volatile']//Input[@id='SIZE']").send_keys disk[:size]
+                if disk[:type]
+                    dropdown = div.find_element(:xpath, "//div[@diskid='#{i}']//div[@class='volatile']//select[@id='TYPE_KVM']")
+                    @sunstone_test.click_option(dropdown, "value", disk[:type])
+                end
+                if disk[:format]
+                    dropdown = div.find_element(:xpath, "//div[@diskid='#{i}']//div[@class='volatile']//select[@id='FORMAT_KVM']")
+                    @sunstone_test.click_option(dropdown, "value", disk[:format])
+                end
                 @sunstone_test.get_element_by_id("tf_btn_disks").click
                 i+=1
             }

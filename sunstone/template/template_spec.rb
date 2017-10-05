@@ -6,7 +6,7 @@ RSpec.describe "Template test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -28,7 +28,7 @@ RSpec.describe "Template test" do
         @template.navigate
         hash = { name: "test1", mem: "3", cpu: "0.2" }
         @template.add_general(hash)
-        hash = { image: [ "0", "11" ], volatile: [{ size: "2", type: "fs", format: "qcow2" }] }
+        hash = { image: [ "0" ], volatile: [{ size: "2", type: "fs", format: "qcow2" }] }
         @template.add_storage(hash)
         @template.submit
     end
@@ -42,6 +42,28 @@ RSpec.describe "Template test" do
         hash = { vnet: [ "1" ] }
         @template.add_network(hash)
 
+        @template.submit
+    end
+
+    it "Create one template with user inputs" do
+        @template.navigate
+        hash = { name: "test3", mem: "2", cpu: "0.1" }
+        @template.add_general(hash)
+        hash = { input: [ {name: "input1", type: "text", desc: "input1", mand: "true"}, {name: "input2", type: "boolean", desc: "input2", mand: "false"} ] }
+        @template.add_user_inputs(hash)
+        @template.submit
+    end
+
+    it "Create one complete template" do
+        @template.navigate
+        hash = { name: "test_complete", mem: "5", cpu: "0.5" }
+        @template.add_general(hash)
+        hash = { image: [ "0" , "11" ], volatile: [{ size: "2", type: "fs", format: "qcow2" } ] }
+        @template.add_storage(hash)
+        hash = { vnet: [ "1" ] }
+        @template.add_network(hash)
+        hash = { input: [ {name: "input1", type: "text", desc: "input1", mand: "true"}, {name: "input2", type: "boolean", desc: "input2", mand: "false"} ] }
+        @template.add_user_inputs(hash)
         @template.submit
     end
 

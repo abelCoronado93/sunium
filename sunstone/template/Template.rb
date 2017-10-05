@@ -88,7 +88,25 @@ class Template
                 i+=1
             }
         end
+    end
 
+    def add_user_inputs(json)
+        @sunstone_test.get_element_by_id("contextTabone11-label").click
+        if json[:input]
+            $driver.find_element(:class, "add_user_input_attr").click
+            json[:input].each { |input|
+                table = $driver.find_element(:class, "user_input_attrs")
+                tr_table = table.find_elements(tag_name: "tr")
+                tr_table[tr_table.length - 2].find_element(:class, "user_input_name").send_keys input[:name]
+                dropdown = tr_table[tr_table.length - 2].find_element(:class, "user_input_type")
+                @sunstone_test.click_option(dropdown, "value", input[:type])
+                tr_table[tr_table.length - 2].find_element(:class, "user_input_description").send_keys input[:desc]
+                if input[:mand] && input[:mand] == "false"
+                    tr_table[tr_table.length - 2].find_element(:class, "switch-paddle").click
+                end
+                table.find_element(:class, "add_user_input_attr").click
+            }
+        end
     end
 
 end

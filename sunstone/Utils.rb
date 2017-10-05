@@ -29,6 +29,11 @@ class Utils
         sleep 2
     end
 
+    # num_col: datatable column number (0: id, 1: name...)
+    # compare: element to compare
+    # datatable: datatable DOM id
+    #
+    # return: tr with match
     def check_exists(num_col = 2, compare, datatable)
         table = @sunstone_test.get_element_by_id("#{datatable}")
         tr_table = table.find_elements(tag_name: 'tr')
@@ -43,6 +48,10 @@ class Utils
         return false
     end
 
+    # tr_table: tr Array
+    # hash: Array [{key: "key", value: "value"}]
+    #
+    # return: hash without elements match
     def check_elements(tr_table, hash)
         tr_table.each { |tr|
             td = tr.find_elements(tag_name: "td")

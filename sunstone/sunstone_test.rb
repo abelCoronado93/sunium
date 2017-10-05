@@ -43,15 +43,15 @@ class SunstoneTest
     def js_errors?
         js_console_log = $driver.manage.logs.get("browser")
         messages = []
-        js_console_log.each do |item|
+        js_console_log.each { |item|
             if item.level == "SEVERE" and !item.message.include? "Unauthorized"
                 messages << item.message
             end
-        end
+        }
         if messages.length > 0
-            messages.each do |message|
+            messages.each { |message|
                 fail "js console error: '#{message}'" if message.length > 0
-            end
+            }
             true
         else
             false

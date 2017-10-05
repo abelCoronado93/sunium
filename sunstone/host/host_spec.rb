@@ -27,4 +27,12 @@ RSpec.describe "Host test" do
         @host.create_kvm("test2_kvm")
     end
 
+    it "Check hosts" do
+        hash=[
+            {key:"IM MAD", value:"kvm"},
+            {key:"VM MAD", value:"kvm"}
+        ]
+        @host.check("test2_kvm", hash)
+    end
+
 end

@@ -31,4 +31,34 @@ class Host
         @utils.submit_create(@resource_tag)
     end
 
+    def check(name,hash={})
+        @utils.navigate(@general_tag, @resource_tag)
+        table = @sunstone_test.get_element_by_id("dataTableHosts")
+        tr_table = table.find_elements(tag_name: 'tr')
+        tr_table.each { |tr|
+            td = tr.find_elements(tag_name: "td")
+            if td.length > 0
+                if name == td[2].text
+                    tr.click 
+                    break
+                end
+            end
+        }
+        div = @sunstone_test.get_element_by_id("host_info_tab")
+        table = div.find_elements(:class, "dataTable")
+        tr_table = table[0].find_elements(tag_name: 'tr')
+        tr_table.each { |tr|
+            td = tr.find_elements(tag_name: "td")
+            if td.length > 0
+                hash.each{ |obj|
+                    if obj[:key] == td[0].text && obj[:value] != td[1].text
+                        puts "Check fail => #{obj[:key]} : #{obj[:value]}"
+                        fail
+                        break
+                    end
+                }
+            end
+        }
+    end
+
 end

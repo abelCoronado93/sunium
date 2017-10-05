@@ -21,8 +21,15 @@ RSpec.describe "Network test" do
 
     it "Create vnet" do
         @vnet.create("vnet1", "br0", "192.168.0.1", "100")
-        @vnet.create("vnet2", "br0", "192.168.0.2", "100")
-        @vnet.create("vnet3", "br0", "192.168.0.3", "100")
+    end
+
+    it "check vnet" do
+        hash_info=[ {key:"BRIDGE", value:"br0"}]
+        ars = [
+            {IP:"192.168.0.1", SIZE:"100"}
+        ]
+
+        @vnet.check("vnet1", hash_info, ars)
     end
 
 end

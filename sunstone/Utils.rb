@@ -14,15 +14,32 @@ class Utils
     end
 
     def navigate(general, resource)
-        element = $driver.find_element(:id, "menu-toggle")
-        element.click if element.displayed?
-        @sunstone_test.get_element_by_id("li_#{general}-top-tab").click if !$driver.find_element(:id, "li_#{resource}-tab").displayed?
-        @sunstone_test.get_element_by_id("li_#{resource}-tab").click if !$driver.find_element(:id, "#{resource}-tabcreate_buttons").displayed?
+        if !$driver.find_element(:id, "#{resource}-tabcreate_buttons").displayed?
+            element = $driver.find_element(:id, "menu-toggle")
+            element.click if element.displayed?
+            @sunstone_test.get_element_by_id("li_#{general}-top-tab").click if !$driver.find_element(:id, "li_#{resource}-tab").displayed?
+            @sunstone_test.get_element_by_id("li_#{resource}-tab").click
+            sleep 1
+        end
     end
 
     def submit_create(resource)
         element = @sunstone_test.get_element_by_id("#{resource}-tabsubmit_button")
         element.find_element(:class, "submit_button").click if element.displayed?
         sleep 1
+    end
+
+    def check_exists(name, datatable)
+        table = @sunstone_test.get_element_by_id("#{datatable}")
+        tr_table = table.find_elements(tag_name: 'tr')
+        tr_table.each { |tr|
+            td = tr.find_elements(tag_name: "td")
+            if td.length > 0 && td[0].text != "There is no data available"
+                if name == td[2].text
+                    return tr
+                end
+            end
+        }
+        return false
     end
 end

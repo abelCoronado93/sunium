@@ -16,7 +16,7 @@ RSpec.describe "Template test" do
     after(:all) do
         @sunstone_test.sign_out
     end
-=begin
+
     it "Create one basic template" do
         @template.navigate
         hash = { name: "test_basic", mem: "2", cpu: "0.1" }
@@ -66,7 +66,6 @@ RSpec.describe "Template test" do
         @template.add_user_inputs(hash)
         @template.submit
     end
-=end
 
     it "Check templates" do
         hash_info=[
@@ -75,9 +74,9 @@ RSpec.describe "Template test" do
         ]
         @template.check("test_basic", hash_info)
     end
-=begin
+
     it "Delete template" do
         @template.delete("test_basic")
     end
-=end
+
 end

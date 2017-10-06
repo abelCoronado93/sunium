@@ -6,7 +6,7 @@ RSpec.describe "File test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "mypassword"
+            :password => "opennebula"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -23,6 +23,13 @@ RSpec.describe "File test" do
 
     it "Create one context file" do
         @file.create("test_context", "CONTEXT", ".")
+    end
+
+    it "Check hosts" do
+        hash_info=[
+            {key:"Type", value:"KERNEL"}
+        ]
+        @file.check("test_kernel", hash_info)
     end
 
 end

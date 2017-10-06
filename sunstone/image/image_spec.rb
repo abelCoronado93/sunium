@@ -25,4 +25,12 @@ RSpec.describe "Image test" do
         @image.create_empty("test_datablock", "DATABLOCK", "1")
     end
 
+    it "Check images" do
+        hash_info=[
+            {key:"Type", value:"OS"},
+            {key:"DRIVER", value:"raw"}
+        ]
+        @image.check("test_os", hash_info)
+    end
+
 end

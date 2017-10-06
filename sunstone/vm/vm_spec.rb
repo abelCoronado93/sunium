@@ -26,4 +26,11 @@ RSpec.describe "Vm test" do
         @vm.custom_instantiate("0", hash)
     end
 
+    it "Check templates" do
+        hash_info=[
+            {key:"CPU", value:"0.2"}
+        ]
+        @vm.check(2, "test1", hash_info)
+    end
+
 end

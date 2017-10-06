@@ -70,6 +70,18 @@ class Utils
         return hash
     end
 
+    def check_elements_raw(pre, hash)
+        tmpl_text = pre.attribute("innerHTML")
+        hash_copy = hash[0 .. hash.length]
+        hash.each{ |obj|
+            compare = obj[:key] + ' = "' + obj[:value] + '"'
+            if tmpl_text.include? compare
+                hash_copy.delete(obj)
+            end
+        }
+        return hash_copy
+    end
+
     def delete_resource(name, general, resource, datatable)
         navigate(general, resource)
         host = check_exists(2, name, datatable)

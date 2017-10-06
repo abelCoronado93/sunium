@@ -1,4 +1,5 @@
 require './sunstone/Utils'
+require 'pry'
 
 class Template
 
@@ -107,6 +108,29 @@ class Template
                 end
                 table.find_element(:class, "add_user_input_attr").click
             }
+        end
+    end
+
+    def check(name,hash={})
+        @utils.navigate(@general_tag, @resource_tag)
+        tmpl = @utils.check_exists(2, name, @datatable)
+        if tmpl
+            tmpl.click
+            @sunstone_test.get_element_by_id("template_template_tab-label").click
+            pre = $driver.find_element(:xpath, "//div[@id='template_template_tab']//pre")
+            tmpl_text = pre.attribute("innerHTML")
+            hash_copy = hash[0 .. hash.length]
+            hash.each{ |obj|
+                compare = obj[:key] + ' = "' + obj[:value] + '"'
+                if tmpl_text.include? compare
+                    hash_copy.delete(obj)
+                end
+            }
+
+            if !hash_copy.empty?
+                puts "Check fail: Not Found all keys"
+                hash_copy.each{ |obj| puts "#{obj[:key]} : #{obj[:value]}" }
+            end
         end
     end
 

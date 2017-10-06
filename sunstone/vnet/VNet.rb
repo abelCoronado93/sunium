@@ -102,4 +102,27 @@ class VNet
         @utils.delete_resource(name, @general_tag, @resource_tag, @datatable)
     end
 
+    def update(vnet_id, bridge, net_mode)
+        @utils.navigate(@general_tag, @resource_tag)
+        res = @utils.check_exists(1, vnet_id, @datatable)
+        if res
+            td = res.find_elements(tag_name: "td")[0]
+            td.find_element(:class, "check_item").click
+
+            span = @sunstone_test.get_element_by_id("vnets-tabmain_buttons")
+            buttons = span.find_elements(:tag_name, "button")
+            buttons[0].click
+
+            @sunstone_test.get_element_by_id("vnetCreateBridgeTab-label").click
+
+            bridge_input = @sunstone_test.get_element_by_id("bridge")
+            bridge_input.clear
+            bridge_input.send_keys "#{bridge}"
+
+            dropdown = @sunstone_test.get_element_by_id("network_mode")
+            @sunstone_test.click_option(dropdown, "value", net_mode)
+            @sunstone_test.get_element_by_id("vnets-tabsubmit_button").click
+        end
+    end
+
 end

@@ -83,10 +83,10 @@ class Utils
     end
 
     def delete_resource(name, general, resource, datatable)
-        navigate(general, resource)
-        host = check_exists(2, name, datatable)
-        if host
-            td = host.find_elements(tag_name: "td")[0]
+        self.navigate(general, resource)
+        res = self.check_exists(2, name, datatable)
+        if res
+            td = res.find_elements(tag_name: "td")[0]
             td.find_element(:class, "check_item").click
             @sunstone_test.get_element_by_id("#{resource}-tabdelete_buttons").click
             @sunstone_test.get_element_by_id("confirm_proceed").click

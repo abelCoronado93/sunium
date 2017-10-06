@@ -7,12 +7,11 @@ RSpec.describe "Network test" do
 
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
         @vnet = VNet.new(@sunstone_test)
-        @wait = Selenium::WebDriver::Wait.new(:timeout => 15)
     end
 
     after(:all) do
@@ -24,9 +23,9 @@ RSpec.describe "Network test" do
     end
 
     it "Check vnet" do
-        hash_info=[ {key:"BRIDGE", value:"br0"}]
+        hash_info = [ {key: "BRIDGE", value: "br0"} ]
         ars = [
-            {IP:"192.168.0.1", SIZE:"100"}
+            {IP: "192.168.0.1", SIZE: "100"}
         ]
 
         @vnet.check("vnet1", hash_info, ars)
@@ -34,6 +33,10 @@ RSpec.describe "Network test" do
 
     it "Delete vnet" do
         @vnet.delete("vnet1")
+    end
+
+    it "Update vnet" do
+        @vnet.update("1", "br1", "dummy")
     end
 
 end

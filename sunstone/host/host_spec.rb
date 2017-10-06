@@ -33,6 +33,19 @@ RSpec.describe "Host test" do
             {key:"VM MAD", value:"kvm"}
         ]
         @host.check("test2_kvm", hash)
+
+        hash=[
+            {key:"IM MAD", value:"dummy"},
+            {key:"VM MAD", value:"dummy"}
+        ]
+        @host.check("test2_dummy", hash)
+    end
+
+    it "Delete hosts" do
+        @host.delete("test1_dummy")
+        @host.delete("test2_dummy")
+        @host.delete("test1_kvm")
+        @host.delete("test2_kvm")
     end
 
 end

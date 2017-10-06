@@ -1,4 +1,5 @@
 require './sunstone/Utils'
+require 'pry'
 
 class Host
 
@@ -11,25 +12,37 @@ class Host
     end
 
     def create_dummy(name)
-        @utils.navigate_create(@general_tag, @resource_tag)
+        @utils.navigate(@general_tag, @resource_tag)
 
-        dropdown = @sunstone_test.get_element_by_id("host_type_mad")
-        @sunstone_test.click_option(dropdown, "value", "custom")
+        if !@utils.check_exists(2, name, @datatable)
 
-        @sunstone_test.get_element_by_id("name").send_keys "#{name}"
+            @utils.navigate_create(@general_tag, @resource_tag)
 
-        @sunstone_test.get_element_by_name("custom_vmm_mad").send_keys "dummy"
-        @sunstone_test.get_element_by_name("custom_im_mad").send_keys "dummy"
+            dropdown = @sunstone_test.get_element_by_id("host_type_mad")
+            @sunstone_test.click_option(dropdown, "value", "custom")
 
-        @utils.submit_create(@resource_tag)
+            @sunstone_test.get_element_by_id("name").send_keys "#{name}"
+
+            @sunstone_test.get_element_by_name("custom_vmm_mad").send_keys "dummy"
+            @sunstone_test.get_element_by_name("custom_im_mad").send_keys "dummy"
+
+            @utils.submit_create(@resource_tag)
+
+        end
     end
 
     def create_kvm(name)
-        @utils.navigate_create(@general_tag, @resource_tag)
+        @utils.navigate(@general_tag, @resource_tag)
 
-        @sunstone_test.get_element_by_id("name").send_keys "#{name}"
+        if !@utils.check_exists(2, name, @datatable)
 
-        @utils.submit_create(@resource_tag)
+            @utils.navigate_create(@general_tag, @resource_tag)
+
+            @sunstone_test.get_element_by_id("name").send_keys "#{name}"
+
+            @utils.submit_create(@resource_tag)
+
+        end
     end
 
     def check(name,hash={})
@@ -47,6 +60,10 @@ class Host
                 hash.each{ |obj| puts "#{obj[:key]} : #{obj[:key]}" }
             end
         end
+    end
+
+    def delete(name)
+        @utils.delete_resource(name, @general_tag, @resource_tag, @datatable)
     end
 
 end

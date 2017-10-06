@@ -21,4 +21,7 @@ RSpec.describe "Group test" do
         @group.create("test")
     end
 
+    it "Delete Group" do
+        @group.delete("test")
+    end
 end

@@ -67,4 +67,8 @@ RSpec.describe "Template test" do
         @template.submit
     end
 
+    it "Delete template" do
+        @template.delete("test_basic")
+    end
+
 end

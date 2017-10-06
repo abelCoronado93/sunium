@@ -33,4 +33,8 @@ RSpec.describe "VMGroup test" do
         @vmgrp.create("test", hash_roles, roles_affinity, roles_anti_affinity)
     end
 
+    it "Delete vmgroup" do
+        @vmgrp.delete("test")
+    end
+
 end

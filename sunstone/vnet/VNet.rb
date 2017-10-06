@@ -98,4 +98,8 @@ class VNet
         end
     end
 
+    def delete(name)
+        @utils.delete_resource(name, @general_tag, @resource_tag, @datatable)
+    end
+
 end

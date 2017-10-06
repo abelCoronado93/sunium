@@ -33,4 +33,8 @@ RSpec.describe "Image test" do
         @image.check("test_os", hash_info)
     end
 
+    it "Delete image" do
+        @image.delete("test_datablock")
+    end
+
 end

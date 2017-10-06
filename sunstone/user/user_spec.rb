@@ -27,4 +27,8 @@ RSpec.describe "User test" do
         @user.create_user("Doe", true)
     end
 
+    it "Delete user" do
+        @user.delete("John")
+    end
+
 end

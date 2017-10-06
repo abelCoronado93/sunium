@@ -32,4 +32,8 @@ RSpec.describe "File test" do
         @file.check("test_kernel", hash_info)
     end
 
+    it "Delete file" do
+        @file.check("test_context")
+    end
+
 end

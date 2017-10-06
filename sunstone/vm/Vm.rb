@@ -5,6 +5,7 @@ class Vm
     def initialize(sunstone_test)
         @general_tag = "instances"
         @resource_tag = "vms"
+        @datatable = "dataTableVms"
         @sunstone_test = sunstone_test
         @utils = Utils.new(sunstone_test)
     end
@@ -58,6 +59,22 @@ class Vm
             fail "Template ID: #{template_id} not exists"
         end
 
+    end
+
+    def check(num_col, compare, hash=[])
+        @utils.navigate(@general_tag, @resource_tag)
+        tmpl = @utils.check_exists(num_col, compare, @datatable)
+        if tmpl
+            tmpl.click
+            @sunstone_test.get_element_by_id("vm_template_tab-label").click
+            pre = $driver.find_element(:xpath, "//div[@id='template_template_tab']//pre")
+            hash = @utils.check_elements_raw(pre, hash)
+
+            if !hash.empty?
+                puts "Check fail: Not Found all keys"
+                hash.each{ |obj| puts "#{obj[:key]} : #{obj[:value]}" }
+            end
+        end
     end
 
 end

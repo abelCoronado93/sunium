@@ -33,6 +33,20 @@ RSpec.describe "VMGroup test" do
         @vmgrp.create("test", hash_roles, roles_affinity, roles_anti_affinity)
     end
 
+    it "Check vmgroup" do
+        hash={
+            roles: [
+                { name: "a", affinity: "NONE", hosts: []},
+                { name: "b", affinity: "NONE", hosts: []},
+                { name: "c", affinity: "NONE", hosts: []},
+                { name: "d", affinity: "AFFINED", hosts: []}
+            ]
+        }
+        roles_affinity = [["b","d"]]
+        roles_anti_affinity = [["a","c"]]
+        @vmgrp.check("test", hash, roles_affinity, roles_anti_affinity)
+    end
+
     it "Delete vmgroup" do
         @vmgrp.delete("test")
     end

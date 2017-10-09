@@ -58,8 +58,7 @@ class Utils
             if td.length > 0
                 hash.each{ |obj|
                     if obj[:key] == td[0].text && obj[:value] != td[1].text
-                        puts "Check fail: #{obj[:key]} : #{obj[:value]}"
-                        fail
+                        fail "Check fail: #{obj[:key]} : #{obj[:value]}"
                         break
                     elsif obj[:key] == td[0].text && obj[:value] == td[1].text
                         hash.delete(obj)
@@ -91,8 +90,7 @@ class Utils
             @sunstone_test.get_element_by_id("#{resource}-tabdelete_buttons").click
             @sunstone_test.get_element_by_id("confirm_proceed").click
         else
-            puts "Error delete: Resource not found"
-            fail
+            fail "Error delete: Resource not found"
         end
         sleep 2
     end

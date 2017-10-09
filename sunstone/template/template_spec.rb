@@ -28,7 +28,7 @@ RSpec.describe "Template test" do
         @template.navigate
         hash = { name: "test1", mem: "3", cpu: "0.2" }
         @template.add_general(hash)
-        hash = { image: [ "0" ], volatile: [{ size: "2", type: "fs", format: "qcow2" }] }
+        hash = { image: [ "test_datablock" ], volatile: [{ size: "2", type: "fs", format: "qcow2" }] }
         @template.add_storage(hash)
         @template.submit
     end
@@ -39,7 +39,7 @@ RSpec.describe "Template test" do
         hash = { name: "test2", mem: "3", cpu: "0.2" }
         @template.add_general(hash)
 
-        hash = { vnet: [ "1" ] }
+        hash = { vnet: [ "vnet1" ] }
         @template.add_network(hash)
 
         @template.submit
@@ -58,9 +58,9 @@ RSpec.describe "Template test" do
         @template.navigate
         hash = { name: "test_complete", mem: "5", cpu: "0.5" }
         @template.add_general(hash)
-        hash = { image: [ "0" , "11" ], volatile: [{ size: "2", type: "fs", format: "qcow2" } ] }
+        hash = { image: [ "test_os" , "test_datablock" ], volatile: [{ size: "2", type: "fs", format: "qcow2" } ] }
         @template.add_storage(hash)
-        hash = { vnet: [ "1" ] }
+        hash = { vnet: [ "vnet1" ] }
         @template.add_network(hash)
         hash = { input: [ {name: "input1", type: "text", desc: "input1", mand: "true"}, {name: "input2", type: "boolean", desc: "input2", mand: "false"} ] }
         @template.add_user_inputs(hash)

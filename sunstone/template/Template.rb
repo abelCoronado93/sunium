@@ -37,7 +37,7 @@ class Template
         @sunstone_test.get_element_by_id("storageTabone2-label").click
         i = 1
         if json[:image]
-            json[:image].each { |id|
+            json[:image].each { |name|
                 div = $driver.find_element(:xpath, "//div[@diskid='#{i}']")
                 div.find_element(:xpath, "//div[@diskid='#{i}']//Input[@value='image']").click
                 table = div.find_element(tag_name: "table")
@@ -45,7 +45,7 @@ class Template
                 tr_table.each { |tr|
                     td = tr.find_elements(tag_name: "td")
                     if td.length > 0
-                        tr.click if id.include? td[0].text
+                        tr.click if name.include? td[0].text
                     end
                 }
                 @sunstone_test.get_element_by_id("tf_btn_disks").click
@@ -76,14 +76,14 @@ class Template
         @sunstone_test.get_element_by_id("networkTabone3-label").click
         i = 1
         if json[:vnet]
-            json[:vnet].each { |id|
+            json[:vnet].each { |name|
                 div = $driver.find_element(:xpath, "//div[@nicid='#{i}']")
                 table = div.find_element(tag_name: "table")
                 tr_table = table.find_elements(tag_name: "tr")
                 tr_table.each { |tr|
                     td = tr.find_elements(tag_name: "td")
                     if td.length > 0
-                        tr.click if id.include? td[0].text
+                        tr.click if name.include? td[0].text
                     end
                 }
                 @sunstone_test.get_element_by_id("tf_btn_nics").click

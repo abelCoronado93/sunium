@@ -6,7 +6,7 @@ RSpec.describe "Group test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "mypassword"
+            :password => "opennebula"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -21,7 +21,18 @@ RSpec.describe "Group test" do
         @group.create("test")
     end
 
-    it "Delete Group" do
-        @group.delete("test")
+    it "Update group" do
+        hash = {
+            views:{
+                dafault_user: "user",
+                dafault_admin: "cloud",
+                all: ["view_cloud","view_groupadmin"]
+            }
+        }
+        @group.update("test", hash)
     end
+
+    #it "Delete Group" do
+    #    @group.delete("test")
+    #end
 end

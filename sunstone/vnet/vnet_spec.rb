@@ -36,7 +36,7 @@ RSpec.describe "Network test" do
     end
 
     it "Update vnet" do
-        @vnet.update("1", "br1", "dummy")
+        @vnet.update("vnet1", "br1", "dummy")
     end
 
 end

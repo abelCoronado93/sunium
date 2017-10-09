@@ -102,9 +102,9 @@ class VNet
         @utils.delete_resource(name, @general_tag, @resource_tag, @datatable)
     end
 
-    def update(vnet_id, bridge, net_mode)
+    def update(vnet_name, bridge, net_mode)
         @utils.navigate(@general_tag, @resource_tag)
-        res = @utils.check_exists(1, vnet_id, @datatable)
+        res = @utils.check_exists(2, vnet_name, @datatable)
         if res
             td = res.find_elements(tag_name: "td")[0]
             td.find_element(:class, "check_item").click

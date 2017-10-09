@@ -20,22 +20,22 @@ class Vm
         sleep 0.5
     end
 
-    def instantiate(template_id)
+    def instantiate(template_name)
         self.navigate_create
 
-        tr = @utils.check_exists(0, template_id, "vm_create")
+        tr = @utils.check_exists(1, template_name, "vm_create")
         if tr
             tr.click
             @utils.submit_create(@resource_tag)
         else
-            fail "Template ID: #{template_id} not exists"
+            fail "Template name: #{template_id} not exists"
         end
     end
 
-    def custom_instantiate(template_id, json)
+    def custom_instantiate(template_name, json)
         self.navigate_create
 
-        tr = @utils.check_exists(0, template_id, "vm_create")
+        tr = @utils.check_exists(1, template_name "vm_create")
         if tr
             tr.click
             if json[:name]
@@ -56,7 +56,7 @@ class Vm
 
             @utils.submit_create(@resource_tag)
         else
-            fail "Template ID: #{template_id} not exists"
+            fail "Template name: #{template_name} not exists"
         end
 
     end
@@ -71,7 +71,7 @@ class Vm
             hash = @utils.check_elements_raw(pre, hash)
 
             if !hash.empty?
-                puts "Check fail: Not Found all keys"
+                fail "Check fail: Not Found all keys"
                 hash.each{ |obj| puts "#{obj[:key]} : #{obj[:value]}" }
             end
         end

@@ -18,12 +18,12 @@ RSpec.describe "Vm test" do
     end
 
     it "Instantiate one template" do
-        @vm.instantiate("0")
+        @vm.instantiate("test3")
     end
 
     it "Custom instantiate" do
         hash = { name: "test1", mem: "2", cpu: "0.2" }
-        @vm.custom_instantiate("0", hash)
+        @vm.custom_instantiate("test2", hash)
     end
 
     it "Check templates" do

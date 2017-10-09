@@ -96,4 +96,15 @@ class Utils
         end
         sleep 2
     end
+
+    def wait_jGrowl
+        begin
+            while true do
+                element = $driver.find_element(:class, "jGrowl-message")
+                sleep 0.5
+            end
+        rescue Selenium::WebDriver::Error::NoSuchElementError
+
+        end
+    end
 end

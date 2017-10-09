@@ -1,4 +1,5 @@
 require './sunstone/Utils'
+require 'pry'
 
 class VMGroup
 
@@ -8,12 +9,15 @@ class VMGroup
         @datatable = "dataTableVMGroup"
         @sunstone_test = sunstone_test
         @utils = Utils.new(sunstone_test)
+        @wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     end
 
     def create(name, roles, affinity = [], anti_affinity = [])
-        @utils.navigate_create(@general_tag, @resource_tag)
+        @utils.navigate(@general_tag, @resource_tag)
 
         if !@utils.check_exists(2, name, @datatable)
+            @utils.navigate_create(@general_tag, @resource_tag)
+
             @sunstone_test.get_element_by_id("vm_group_name").send_keys "#{name}"
             i = 0
             roles[:roles].each{ |rol|
@@ -52,6 +56,77 @@ class VMGroup
             }
 
             @utils.submit_create(@resource_tag)
+        end
+    end
+
+        # Hash parameter can have this attributes:
+    #  - :info, :attr, :groups, :quotas, :auth
+    def check(name, hash, affinity = [], anti_affinity = [])
+        @utils.navigate(@general_tag, @resource_tag)
+        @sunstone_test.get_element_by_id(@datatable)
+        vmgrp = @utils.check_exists(2, name, @datatable)
+        if vmgrp
+            vmgrp.click
+            sleep 2
+            tr_table = []
+            roles_copy = hash[:roles][0 .. hash[:roles].length]
+            @wait.until{
+                table = $driver.find_elements(:xpath, "//div[@id='vm_group_info_tab']//table[@class='policies_table dataTable']")[0]
+                tr_table = table.find_elements(tag_name: "tr")
+                !tr_table.empty?
+            }
+            hash[:roles].each { |rol|
+                table = $driver.find_elements(:xpath, "//div[@id='vm_group_info_tab']//table[@class='policies_table dataTable']")[0]
+                tr_table = table.find_elements(tag_name: 'tr')
+                tr_table.each { |tr|
+                    td = tr.find_elements(tag_name: "td")
+                    if td.length > 0 && td[0].text != "There is no data available"
+                        if rol[:name] == td[0].text && rol[:affinity] == td[3].text
+                            roles_copy.delete(rol)
+                            break
+                        end
+                    end
+                }
+            }
+
+            if !roles_copy.empty?
+                fail "Roles not found"
+            end
+
+            affinity_copy = []
+            affinity.each { |names|
+                affinity_copy.push(names.join(","))
+            }
+
+            anti_affinity_copy = []
+            anti_affinity.each { |names|
+                anti_affinity_copy.push(names.join(","))
+            }
+
+            table = $driver.find_elements(:xpath, "//div[@id='vm_group_info_tab']//table[@class='policies_table dataTable']")[1]
+            tr_table = table.find_elements(tag_name: 'tr')
+            tr_table.each { |tr|
+                td = tr.find_elements(tag_name: "td")
+                if td.length > 0 && td[0].text != "There is no data available"
+                    if td[1].text == "AFFINED"
+                        if affinity_copy.include? td[0].text
+                            affinity_copy.delete(td[0].text)
+                        end
+                    elsif td[1].text == "ANTI_AFFINED"
+                        if anti_affinity_copy.include? td[0].text
+                            anti_affinity_copy.delete(td[0].text)
+                        end
+                    end
+                end
+            }
+
+            if !affinity_copy.empty?
+                fail "Check fail affinity roles"
+            end
+
+            if !anti_affinity_copy.empty?
+                fail "Check fail anti_affinity roles"
+            end
         end
     end
 

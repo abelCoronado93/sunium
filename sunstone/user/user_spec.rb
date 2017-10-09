@@ -6,7 +6,7 @@ RSpec.describe "User test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "mypassword"
+            :password => "opennebula"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -18,13 +18,29 @@ RSpec.describe "User test" do
         @sunstone_test.sign_out
     end
 
-    it "Create two normal user" do
-        @user.create_user("John", false)
-        @user.create_user("Paul", false)
+    it "Create users, normal and admin" do
+        hash = {
+            primary: "users",
+            secondary: ["users"]
+        }
+        @user.create_user("John", hash)
+        @user.create_user("Paul", hash)
+
+        hash = {
+            primary: "oneadmin",
+            secondary: []
+        }
+        @user.create_user("Doe", hash)
     end
 
-    it "Create one admin user" do
-        @user.create_user("Doe", true)
+    it "Check users" do
+        hash={
+            info:[
+                {key:"Name", value:"oneadmin"}
+                ],
+            groups:{primary:"oneadmin", secondary:["oneadmin"]}
+        }
+        @user.check("oneadmin", hash)
     end
 
     it "Delete user" do

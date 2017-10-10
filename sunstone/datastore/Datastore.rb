@@ -11,7 +11,7 @@ class Datastore
         @wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     end
 
-    def create(name, storage_bck, ds_type)
+    def create(name, hash) #hash -> storage_bck, ds_type
         @utils.navigate(@general_tag, @resource_tag)
 
         if !@utils.check_exists(2, name, @datatable)
@@ -19,11 +19,13 @@ class Datastore
 
             @sunstone_test.get_element_by_id("name").send_keys "#{name}"
 
-            dropdown = @sunstone_test.get_element_by_id("presets")
-            @sunstone_test.click_option(dropdown, "tm", storage_bck)
-
-            @sunstone_test.get_element_by_id("#{ds_type}_ds_type").click
-
+            if hash[:tm]
+                dropdown = @sunstone_test.get_element_by_id("presets")
+                @sunstone_test.click_option(dropdown, "tm", hash[:tm])
+            end
+            if hash[:type]
+                @sunstone_test.get_element_by_id("#{hash[:type]}_ds_type").click
+            end
             @utils.submit_create(@resource_tag)
         end
     end

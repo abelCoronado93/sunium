@@ -11,22 +11,35 @@ class VNet
         @wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     end
 
-    def create(name, bridge, ip, size)
+    def create(name, hash, ars)
         @utils.navigate(@general_tag, @resource_tag)
 
         if !@utils.check_exists(2, name, @datatable)
 
             @utils.navigate_create(@general_tag, @resource_tag)
             @sunstone_test.get_element_by_id("name").send_keys "#{name}"
+            if hash[:BRIDGE]
+                @sunstone_test.get_element_by_id("vnetCreateBridgeTab-label").click
+                @sunstone_test.get_element_by_id("bridge").send_keys "#{hash[:BRIDGE]}"
+            end
+            
+            if !ars.empty?
+                @sunstone_test.get_element_by_id("vnetCreateARTab-label").click
+                @sunstone_test.get_element_by_id("vnet_wizard_ar_tabs")
+                i = 0
+                ars.each{ |ar|
+                    @sunstone_test.get_element_by_id("ar#{i}_ar_type_#{ar[:type]}").click
+                    if ar[:type] == "ip6" || ar[:type] == "ether"
+                        @sunstone_test.get_element_by_id("ar#{i}_mac_start").send_keys "#{ar[:mac]}"
+                    else
+                        @sunstone_test.get_element_by_id("ar#{i}_ip_start").send_keys "#{ar[:ip]}"
+                    end
+                    @sunstone_test.get_element_by_id("ar#{i}_size").send_keys "#{ar[:size]}"
 
-            @sunstone_test.get_element_by_id("vnetCreateBridgeTab-label").click
-            @sunstone_test.get_element_by_id("bridge").send_keys "#{bridge}"
-
-            @sunstone_test.get_element_by_id("vnetCreateARTab-label").click
-            @sunstone_test.get_element_by_id("vnet_wizard_ar_tabs")
-
-            @sunstone_test.get_element_by_id("ar0_ip_start").send_keys "#{ip}"
-            @sunstone_test.get_element_by_id("ar0_size").send_keys "#{size}"
+                    @sunstone_test.get_element_by_id("vnet_wizard_ar_btn").click
+                    i+=1
+                }
+            end
 
             @utils.submit_create(@resource_tag)
         end
@@ -102,26 +115,19 @@ class VNet
         @utils.delete_resource(name, @general_tag, @resource_tag, @datatable)
     end
 
-    def update(vnet_name, bridge, net_mode)
+    def update(vnet_name, new_name, hash)
         @utils.navigate(@general_tag, @resource_tag)
-        res = @utils.check_exists(2, vnet_name, @datatable)
-        if res
-            td = res.find_elements(tag_name: "td")[0]
-            td.find_element(:class, "check_item").click
+        vnet = @utils.check_exists(2, vnet_name, @datatable)
+        if vnet
+            vnet.click
+            @sunstone_test.get_element_by_id("vnet_info_tab")
+            if new_name != ""
+                @utils.update_name(new_name)
+            end
 
-            span = @sunstone_test.get_element_by_id("#{@resource_tag}-tabmain_buttons")
-            buttons = span.find_elements(:tag_name, "button")
-            buttons[0].click
-
-            @sunstone_test.get_element_by_id("vnetCreateBridgeTab-label").click
-
-            bridge_input = @sunstone_test.get_element_by_id("bridge")
-            bridge_input.clear
-            bridge_input.send_keys "#{bridge}"
-
-            dropdown = @sunstone_test.get_element_by_id("network_mode")
-            @sunstone_test.click_option(dropdown, "value", net_mode)
-            @sunstone_test.get_element_by_id("vnets-tabsubmit_button").click
+            if hash[:attrs] && !hash[:attrs].empty?
+                @utils.update_attr("network_template_table", hash[:attrs])
+            end
         end
     end
 

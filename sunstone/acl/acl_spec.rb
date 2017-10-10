@@ -18,7 +18,12 @@ RSpec.describe "Acl test" do
     end
 
     it "Create acl" do
-        @acl.create("all", ["host","image"], "all", ["manage"])
+        hash = {
+            resources:["host","image"],
+            subset: "all", 
+            operations: ["manage"]
+        }
+        @acl.create("all", hash)
     end
 
 end

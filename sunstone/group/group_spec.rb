@@ -18,7 +18,14 @@ RSpec.describe "Group test" do
     end
 
     it "Create one group" do
-        @group.create("test")
+        hash = {
+            views:{
+                dafault_user: "user",
+                dafault_admin: "cloud",
+                all: ["view_cloud","view_groupadmin"]
+            }
+        }
+        @group.create("test", hash)
     end
 
     it "Update group" do

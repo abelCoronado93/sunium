@@ -49,7 +49,7 @@ RSpec.describe "Host test" do
     end
 
     it "Update host" do
-        @host.update("test1_dummy", "dummy_updated", "test1")
+        @host.update("test1_dummy", "host_updated", "test1")
     end
 
 end

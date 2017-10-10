@@ -59,11 +59,7 @@ class Host
             host.click
             @sunstone_test.get_element_by_id("host_info_tab-label").click
             if new_name
-                a = @sunstone_test.get_element_by_id("div_edit_rename_link")
-                a.find_element(:tag_name, "i").click
-                input_name = @sunstone_test.get_element_by_id("input_edit_rename")
-                input_name.clear
-                input_name.send_keys "#{new_name}"
+                @utils.update_name(new_name)
             end
             if cluster
                 span = @sunstone_test.get_element_by_id("hosts-tabmain_buttons")

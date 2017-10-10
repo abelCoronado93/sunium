@@ -6,7 +6,7 @@ RSpec.describe "Image test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -35,6 +35,10 @@ RSpec.describe "Image test" do
 
     it "Delete image" do
         @image.delete("test_datablock")
+    end
+
+    it "Update image" do
+        @image.update("test_os", "image_updated", "CDROM", "yes")
     end
 
 end

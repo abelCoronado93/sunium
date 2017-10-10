@@ -43,6 +43,19 @@ RSpec.describe "User test" do
         @user.check("oneadmin", hash)
     end
 
+    it "update users" do
+        hash={
+            info: [
+                {key: "Table Order", value: "ascending"}
+            ],
+            attrs: [
+                {key: "hola", value: "adios"}
+            ],
+            groups:{primary:"oneadmin", secondary:["oneadmin"]}
+        }
+        @user.update("Doe", hash)
+    end
+
     it "Delete user" do
         @user.delete("John")
     end

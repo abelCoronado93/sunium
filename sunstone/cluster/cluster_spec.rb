@@ -34,6 +34,15 @@ RSpec.describe "Cluster test" do
         @cluster.check("test1", hash_info)
     end
 
+    it "Update cluster" do
+        hash = {
+            hosts:[],
+            vnets:[],
+            ds:[]
+        }
+        @group.update("test", hash)
+    end
+
     it "Delete cluster" do
         @cluster.delete("test1")
     end

@@ -75,6 +75,51 @@ class Cluster
         end
     end
 
+    def update(name, hash)
+        @utils.navigate(@general_tag, @resource_tag)
+        cluster = @utils.check_exists(2, name, @datatable)
+        if cluster
+            cluster.click
+            @sunstone_test.get_element_by_id("clusters-tabmain_buttons").click
+            @sunstone_test.get_element_by_id("clusters-tab-wizardForms")
+            if hash[:hosts]
+                hash[:hosts].each { |host_name|
+                    host = @utils.check_exists(1, host_name, "cluster_wizard_hosts")
+                    if host
+                        host.click if host.get_elements(tag_name: "td")[0].attribute("class").nil?
+                    else
+                        fail "Host name not found: #{host_name}"
+                    end
+                }
+            end
+            if hash[:vnets]
+                @sunstone_test.get_element_by_id("tab-vnetsTab-label").click
+                @sunstone_test.get_element_by_id("cluster_wizard_vnetsContainer")
+                hash[:vnets].each { |vnet_name|
+                    vnet = @utils.check_exists(1, vnet_name, "cluster_wizard_vnets")
+                    if vnet
+                        vnet.click if vnet.get_elements(tag_name: "td")[0].attribute("class").nil?
+                    else
+                        fail "Vnet name not found: #{vnet_name}"
+                    end
+                }
+            end
+            if hash[:ds]
+                @sunstone_test.get_element_by_id("tab-tab-datastoresTab-label-label").click
+                @sunstone_test.get_element_by_id("cluster_wizard_datastoresContainer")
+                hash[:ds].each { |ds_name|
+                    ds = @utils.check_exists(1, ds_name, "cluster_wizard_datastores")
+                    if ds
+                        ds.click if ds.get_elements(tag_name: "td")[0].attribute("class").nil?
+                    else
+                        fail "Datastore name not found: #{ds_name}"
+                    end
+                }
+            end
+            @utils.submit_create(@resource_tag)
+        end
+    end
+
     def delete(name)
         @utils.delete_resource(name, @general_tag, @resource_tag, @datatable)
     end

@@ -6,7 +6,7 @@ RSpec.describe "Template test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -18,14 +18,14 @@ RSpec.describe "Template test" do
     end
 
     it "Create one basic template" do
-        @template.navigate
+        @template.navigate_create
         hash = { name: "test_basic", mem: "2", cpu: "0.1" }
         @template.add_general(hash)
         @template.submit
     end
 
     it "Create one template with storage" do
-        @template.navigate
+        @template.navigate_create
         hash = { name: "test1", mem: "3", cpu: "0.2" }
         @template.add_general(hash)
         hash = { image: [ "test_datablock" ], volatile: [{ size: "2", type: "fs", format: "qcow2" }] }
@@ -34,19 +34,16 @@ RSpec.describe "Template test" do
     end
 
     it "Create one template with vnets" do
-        @template.navigate
-
+        @template.navigate_create
         hash = { name: "test2", mem: "3", cpu: "0.2" }
         @template.add_general(hash)
-
         hash = { vnet: [ "vnet1" ] }
         @template.add_network(hash)
-
         @template.submit
     end
 
     it "Create one template with user inputs" do
-        @template.navigate
+        @template.navigate_create
         hash = { name: "test3", mem: "2", cpu: "0.1" }
         @template.add_general(hash)
         hash = { input: [ {name: "input1", type: "text", desc: "input1", mand: "true"}, {name: "input2", type: "boolean", desc: "input2", mand: "false"} ] }
@@ -55,7 +52,7 @@ RSpec.describe "Template test" do
     end
 
     it "Create one complete template" do
-        @template.navigate
+        @template.navigate_create
         hash = { name: "test_complete", mem: "5", cpu: "0.5" }
         @template.add_general(hash)
         hash = { image: [ "test_os" , "test_datablock" ], volatile: [{ size: "2", type: "fs", format: "qcow2" } ] }
@@ -68,15 +65,28 @@ RSpec.describe "Template test" do
     end
 
     it "Check templates" do
-        hash_info=[
-            {key:"LISTEN", value:"0.0.0.0"},
-            {key:"TYPE", value:"VNC"}
+        hash_info = [
+            { key:"LISTEN", value:"0.0.0.0" },
+            { key:"TYPE", value:"VNC" }
         ]
         @template.check("test_basic", hash_info)
     end
 
     it "Delete template" do
         @template.delete("test_basic")
+    end
+
+    it "Update template" do
+        @template.navigate_update("test1")
+        hash = { mem: "2", cpu: "0.2" }
+        @template.update_general(hash)
+        hash = { volatile: [{ size: "2", type: "fs", format: "qcow2" } ] }
+        @template.update_storage(hash)
+        hash = { vnet: [ "vnet1" ] }
+        @template.update_network(hash)
+        hash = { input: [ {name: "input1", type: "text", desc: "input1", mand: "true"}, {name: "input2", type: "boolean", desc: "input2", mand: "false"} ] }
+        @template.update_user_inputs(hash)
+        @template.submit
     end
 
 end

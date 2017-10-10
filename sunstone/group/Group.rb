@@ -25,7 +25,7 @@ class Group
         if group
             group.click
             @sunstone_test.get_element_by_id("group_info_tab")
-            @sunstone_test.get_element_by_id("groups-tabmain_buttons")
+            @sunstone_test.get_element_by_id("#{@resource_tag}-tabmain_buttons")
             $driver.find_element(:xpath, "//span[@id='groups-tabmain_buttons']//button[@href='Group.update_dialog']").click
             @sunstone_test.get_element_by_id("groups-tab-wizardForms")
 

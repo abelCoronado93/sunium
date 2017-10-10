@@ -62,7 +62,7 @@ class Host
                 @utils.update_name(new_name)
             end
             if cluster
-                span = @sunstone_test.get_element_by_id("hosts-tabmain_buttons")
+                span = @sunstone_test.get_element_by_id("#{@resource_tag}-tabmain_buttons")
                 buttons = span.find_elements(:tag_name, "button")
                 buttons[0].click
                 tr = @utils.check_exists(1, cluster, "confirm_with_select")

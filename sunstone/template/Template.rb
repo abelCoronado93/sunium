@@ -1,5 +1,4 @@
 require './sunstone/Utils'
-require 'pry'
 
 class Template
 
@@ -9,10 +8,26 @@ class Template
         @datatable = "dataTableTemplates"
         @sunstone_test = sunstone_test
         @utils = Utils.new(sunstone_test)
+        @disk_cont = 1
+        @nic_cont = 1
     end
 
-    def navigate
+    def navigate_create
         @utils.navigate_create(@general_tag, @resource_tag)
+    end
+
+    def navigate_update(name)
+        @utils.navigate(@general_tag, @resource_tag)
+        template = @utils.check_exists(2, name, @datatable)
+        if template
+            td = template.find_elements(tag_name: "td")[0]
+            td.find_element(:class, "check_item").click
+            span = @sunstone_test.get_element_by_id("#{@resource_tag}-tabmain_buttons")
+            buttons = span.find_elements(:tag_name, "button")
+            buttons[0].click
+        else
+            fail "Template name: #{name} not exists"
+        end
     end
 
     def submit
@@ -23,19 +38,20 @@ class Template
         if json[:name]
             @sunstone_test.get_element_by_id("NAME").send_keys json[:name]
         end
-
         if json[:mem]
             @sunstone_test.get_element_by_id("MEMORY_GB").send_keys json[:mem]
         end
-
         if json[:cpu]
             @sunstone_test.get_element_by_id("CPU").send_keys json[:cpu]
         end
     end
 
-    def add_storage(json)
+    def add_storage(json, update=false)
+        if !update
+            @disk_cont = 1
+        end
         @sunstone_test.get_element_by_id("storageTabone2-label").click
-        i = 1
+        i = @disk_cont
         if json[:image]
             json[:image].each { |name|
                 div = $driver.find_element(:xpath, "//div[@diskid='#{i}']")
@@ -45,7 +61,7 @@ class Template
                 tr_table.each { |tr|
                     td = tr.find_elements(tag_name: "td")
                     if td.length > 0
-                        tr.click if name.include? td[0].text
+                        tr.click if name.include? td[1].text
                     end
                 }
                 @sunstone_test.get_element_by_id("tf_btn_disks").click
@@ -72,9 +88,12 @@ class Template
         end
     end
 
-    def add_network(json)
+    def add_network(json, update=false)
+        if !update
+            @nic_cont = 1
+        end
         @sunstone_test.get_element_by_id("networkTabone3-label").click
-        i = 1
+        i = @nic_cont
         if json[:vnet]
             json[:vnet].each { |name|
                 div = $driver.find_element(:xpath, "//div[@nicid='#{i}']")
@@ -83,7 +102,7 @@ class Template
                 tr_table.each { |tr|
                     td = tr.find_elements(tag_name: "td")
                     if td.length > 0
-                        tr.click if name.include? td[0].text
+                        tr.click if name.include? td[1].text
                     end
                 }
                 @sunstone_test.get_element_by_id("tf_btn_nics").click
@@ -131,4 +150,66 @@ class Template
         @utils.delete_resource(name, @general_tag, @resource_tag, @datatable)
     end
 
+    def update_general(json)
+        if json[:mem]
+            input = @sunstone_test.get_element_by_id("MEMORY_GB")
+            input.clear
+            input.send_keys json[:mem]
+        end
+        if json[:cpu]
+            input = @sunstone_test.get_element_by_id("CPU")
+            input.clear
+            input.send_keys json[:cpu]
+        end
+    end
+
+    def update_storage(json)
+        self.delete_storage
+        self.add_storage(json, true)
+    end
+
+    def delete_storage
+        @disk_cont = 1
+        @sunstone_test.get_element_by_id("storageTabone2-label").click
+        ul = @sunstone_test.get_element_by_id("template_create_storage_tabs")
+        li = ul.find_elements(:class, "tabs-title")
+        li.each{ |element|
+            element.find_element(:class, "remove-tab").click
+            @disk_cont+=1
+        }
+        @sunstone_test.get_element_by_id("tf_btn_disks").click
+    end
+
+    def update_network(json)
+        self.delete_network
+        self.add_network(json, true)
+    end
+
+    def delete_network
+        @nic_cont = 1
+        @sunstone_test.get_element_by_id("networkTabone3-label").click
+        ul = @sunstone_test.get_element_by_id("template_create_network_tabs")
+        li = ul.find_elements(:class, "tabs-title")
+        li.each{ |element|
+            element.find_element(:class, "remove-tab").click
+            @nic_cont+=1
+        }
+        @sunstone_test.get_element_by_id("tf_btn_nics").click
+    end
+
+    def update_user_inputs(json)
+        self.delete_user_inputs
+        self.add_user_inputs(json)
+    end
+
+    def delete_user_inputs
+        @sunstone_test.get_element_by_id("contextTabone11-label").click
+        table = $driver.find_element(:class, "user_input_attrs")
+        tbody = table.find_element(:tag_name, "tbody")
+        trs = tbody.find_elements(:tag_name, "tr")
+        trs.each{ |tr|
+            tds = tr.find_elements(:tag_name, "td")
+            tds[tds.length - 1].find_element(:tag_name, "i").click
+        }
+    end
 end

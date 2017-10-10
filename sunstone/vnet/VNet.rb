@@ -109,7 +109,7 @@ class VNet
             td = res.find_elements(tag_name: "td")[0]
             td.find_element(:class, "check_item").click
 
-            span = @sunstone_test.get_element_by_id("vnets-tabmain_buttons")
+            span = @sunstone_test.get_element_by_id("#{@resource_tag}-tabmain_buttons")
             buttons = span.find_elements(:tag_name, "button")
             buttons[0].click
 

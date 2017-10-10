@@ -89,7 +89,6 @@ class Image
                 a.find_element(:tag_name, "i").click
                 dropdown = @sunstone_test.get_element_by_id("chg_type_select")
                 @sunstone_test.click_option(dropdown, "value", type)
-                sleep 2
             end
             a = @sunstone_test.get_element_by_id("div_edit_persistency_link")
             a.find_element(:tag_name, "i").click

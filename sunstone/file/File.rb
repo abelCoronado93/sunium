@@ -54,4 +54,25 @@ class File
         @utils.delete_resource(name, @general_tag, @resource_tag, @datatable)
     end
 
+    def update(name, new_name, type)
+        @utils.navigate(@general_tag, @resource_tag)
+        file = @utils.check_exists(2, name, @datatable)
+        if file
+            file.click
+            @sunstone_test.get_element_by_id("file_info_tab-label").click
+            if new_name
+                @utils.update_name(new_name)
+            end
+            if type
+                a = @sunstone_test.get_element_by_id("div_edit_chg_type_link")
+                a.find_element(:tag_name, "i").click
+                dropdown = @sunstone_test.get_element_by_id("chg_type_select")
+                @sunstone_test.click_option(dropdown, "value", type)
+            end
+            @sunstone_test.get_element_by_id("#{@resource_tag}-tabback_button").click
+        else
+            fail "File name: #{name} not exists"
+        end
+    end
+
 end

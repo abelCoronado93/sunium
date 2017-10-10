@@ -37,26 +37,10 @@ class App
         if app
             app.click
             if new_name != ""
-                @sunstone_test.get_element_by_id("div_edit_rename_link").click
-                rename = @sunstone_test.get_element_by_id("input_edit_rename")
-                rename.clear
-                rename.send_keys new_name
+                @utils.update_name(new_name)
             end
             if hash && !hash.empty?
-                hash.each { |obj_attr|
-                    attr_element = @utils.check_exists(0, obj_attr[:key], "marketplaceapp_template_table")
-                    if attr_element
-                        attr_element.find_element(:id, "div_edit").click
-                        @sunstone_test.get_element_by_id("input_edit_#{obj_attr[:key]}").clear
-                        attr_element.find_element(:id, "div_edit").click
-                        @sunstone_test.get_element_by_id("input_edit_#{obj_attr[:key]}").send_keys obj_attr[:value]
-                    else
-                        @sunstone_test.get_element_by_id("new_key").send_keys obj_attr[:key]
-                        @sunstone_test.get_element_by_id("new_value").send_keys obj_attr[:value]
-                        @sunstone_test.get_element_by_id("button_add_value").click
-                    end
-                    @utils.wait_jGrowl
-                }
+                @utils.update_attr("marketplaceapp_template_table", hash)
             end
         end
     end

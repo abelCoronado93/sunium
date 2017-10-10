@@ -117,6 +117,47 @@ class User
         end
     end
 
+    def update(name, hash)
+        @utils.navigate(@general_tag, @resource_tag)
+        user = @utils.check_exists(2, name, @datatable)
+        if user
+            @utils.wait_jGrowl
+            user.click
+            @sunstone_test.get_element_by_id("user_info_tab")
+            if hash[:info] && !hash[:info].empty?
+                @utils.update_info("//div[@id='user_info_tab']//table[@class='dataTable']", hash[:info])
+            end
+
+            if hash[:attr] && !hash[:attr].empty?
+                @utils.update_attr("user_template_table", hash[:attr])
+            end
+
+            if hash[:groups]
+                @sunstone_test.get_element_by_id("user_groups_tab-label").click
+                @sunstone_test.get_element_by_id("user_groups_tab")
+                @sunstone_test.get_element_by_id("update_group").click
+                if hash[:groups][:primary]
+                    @sunstone_test.get_element_by_id("choose_primary_grp")
+                    options = $driver.find_elements(:xpath, "//div[@id='choose_primary_grp']//option")
+                    options.each{ |opt| opt.click if opt.text.include? hash[:groups][:primary]}
+                end
+
+                if hash[:groups][:secondary]
+                    hash[:groups][:secondary].each { |group|
+                        select_grp = @utils.check_exists(1, group, "user_groups_edit")
+                        if select_grp
+                            check = select_grp.find_elements(tag_name: "td")[0].attribute("class")
+                            select_grp.click if check.nil? || check == ""
+                        else
+                            fail "Datastore name not found: #{group}"
+                        end
+                    }
+                end
+                $driver.find_element(:xpath, "//div[@class='form_buttons row']//button[@type='submit']").submit
+            end
+        end
+    end
+
     def delete(name)
         @utils.delete_resource(name, @general_tag, @resource_tag, @datatable)
     end

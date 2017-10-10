@@ -114,4 +114,59 @@ class Utils
         input_name.send_keys "#{new_name}"
     end
 
+    def update_info(xpath, info)
+        table = $driver.find_element(:xpath, xpath)
+        tr_table = table.find_elements(tag_name: 'tr')
+        info.each { |obj_attr|
+            attr_element = false
+            tr_table.each { |tr|
+                td = tr.find_elements(tag_name: "td")
+                if td.length > 0 && td[0].text != "There is no data available"
+                    if obj_attr[:key] == td[0].text
+                        attr_element = tr
+                        break
+                    end
+                end
+            }
+            if attr_element
+                if attr_element.find_elements(:id, "div_edit_#{obj_attr[:key]}").size() > 0
+
+                    a = attr_element.find_element(:id, "div_edit")
+                    a.find_element(:tag_name, "i").click
+                    @sunstone_test.get_element_by_id("input_edit_#{obj_attr[:key]}").clear
+                    attr_element.find_element(:id, "div_edit").click
+                    @sunstone_test.get_element_by_id("input_edit_#{obj_attr[:key]}").send_keys obj_attr[:value]
+
+                elsif  attr_element.find_elements(:id, "div_edit_table_order_link").size() > 0
+
+                    a = attr_element.find_element(:id, "div_edit_table_order_link")
+                    a.find_element(:tag_name, "i").click
+                    options = $driver.find_elements(:xpath, "//select[@id='table_order_select']//option")
+                    options.each{ |opt| opt.click if opt.text.include? obj_attr[:value]}
+
+                end
+            else
+                fail "Information attribute not found: #{obj_attr[:key]}"
+            end
+            wait_jGrowl
+        }
+    end
+
+    def update_attr(datatable_name, attrs)
+        attrs.each { |obj_attr|
+            attr_element = @utils.check_exists(0, obj_attr[:key], datatable_name)
+            if attr_element
+                attr_element.find_element(:id, "div_edit").click
+                @sunstone_test.get_element_by_id("input_edit_#{obj_attr[:key]}").clear
+                attr_element.find_element(:id, "div_edit").click
+                @sunstone_test.get_element_by_id("input_edit_#{obj_attr[:key]}").send_keys obj_attr[:value]
+            else
+                @sunstone_test.get_element_by_id("new_key").send_keys obj_attr[:key]
+                @sunstone_test.get_element_by_id("new_value").send_keys obj_attr[:value]
+                @sunstone_test.get_element_by_id("button_add_value").click
+            end
+            @utils.wait_jGrowl
+        }
+    end
+
 end

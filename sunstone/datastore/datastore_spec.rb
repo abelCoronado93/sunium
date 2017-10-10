@@ -18,10 +18,10 @@ RSpec.describe "Datastore test" do
     end
 
     it "Create datastore" do
-        hash=[
-            {tm: "ssh"},
-            {type: "system"}
-        ]
+        hash={
+            tm: "ssh",
+            type: "system"
+        }
         @ds.create("test1", hash)
     end
 

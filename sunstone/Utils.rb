@@ -152,7 +152,7 @@ class Utils
 
     def update_attr(datatable_name, attrs)
         attrs.each { |obj_attr|
-            attr_element = @utils.check_exists(0, obj_attr[:key], datatable_name)
+            attr_element = check_exists(0, obj_attr[:key], datatable_name)
             if attr_element
                 attr_element.find_element(:id, "div_edit").click
                 @sunstone_test.get_element_by_id("input_edit_#{obj_attr[:key]}").clear
@@ -163,7 +163,7 @@ class Utils
                 @sunstone_test.get_element_by_id("new_value").send_keys obj_attr[:value]
                 @sunstone_test.get_element_by_id("button_add_value").click
             end
-            @utils.wait_jGrowl
+            wait_jGrowl
         }
     end
 

@@ -17,14 +17,11 @@ RSpec.describe "Host test" do
         @sunstone_test.sign_out
     end
 
-    it "Create two dummy hosts" do
-        @host.create_dummy("test1_dummy")
-        @host.create_dummy("test2_dummy")
-    end
-
-    it "Create two kvm hosts" do
-        @host.create_kvm("test1_kvm")
-        @host.create_kvm("test2_kvm")
+    it "Create two hosts (dummy and kvm)" do
+        hash = { name: "test1_dummy", type: "custom", vmmad: "dummy", immad: "dummy"}
+        @host.create(hash)
+        hash = { name: "test1_kvm", type: "kvm" }
+        @host.create(hash)
     end
 
     it "Check hosts" do
@@ -32,24 +29,23 @@ RSpec.describe "Host test" do
             {key:"IM MAD", value:"kvm"},
             {key:"VM MAD", value:"kvm"}
         ]
-        @host.check("test2_kvm", hash)
+        @host.check("test1_kvm", hash)
 
         hash=[
             {key:"IM MAD", value:"dummy"},
             {key:"VM MAD", value:"dummy"}
         ]
-        @host.check("test2_dummy", hash)
-    end
-
-    it "Delete hosts" do
-        @host.delete("test1_dummy")
-        @host.delete("test2_dummy")
-        @host.delete("test1_kvm")
-        @host.delete("test2_kvm")
+        @host.check("test1_dummy", hash)
     end
 
     it "Update host" do
-        @host.update("test1_dummy", "host_updated", "test1")
+        hash = { cluster: "test1" }
+        @host.update("test1_dummy", "host_updated", hash)
+    end
+
+    it "Delete hosts" do
+        @host.delete("host_updated")
+        @host.delete("test1_kvm")
     end
 
 end

@@ -10,24 +10,19 @@ class Host
         @utils = Utils.new(sunstone_test)
     end
 
-    def create_dummy(name)
+    def create(json)
         @utils.navigate(@general_tag, @resource_tag)
-        if !@utils.check_exists(2, name, @datatable)
+        if !@utils.check_exists(2, json[:name], @datatable)
             @utils.navigate_create(@general_tag, @resource_tag)
             dropdown = @sunstone_test.get_element_by_id("host_type_mad")
-            @sunstone_test.click_option(dropdown, "value", "custom")
-            @sunstone_test.get_element_by_id("name").send_keys "#{name}"
-            @sunstone_test.get_element_by_name("custom_vmm_mad").send_keys "dummy"
-            @sunstone_test.get_element_by_name("custom_im_mad").send_keys "dummy"
-            @utils.submit_create(@resource_tag)
-        end
-    end
-
-    def create_kvm(name)
-        @utils.navigate(@general_tag, @resource_tag)
-        if !@utils.check_exists(2, name, @datatable)
-            @utils.navigate_create(@general_tag, @resource_tag)
-            @sunstone_test.get_element_by_id("name").send_keys "#{name}"
+            @sunstone_test.click_option(dropdown, "value", json[:type])
+            @sunstone_test.get_element_by_id("name").send_keys json[:name]
+            if json[:vmmad]
+                @sunstone_test.get_element_by_name("custom_vmm_mad").send_keys json[:vmmad]
+            end
+            if json[:immad]
+                @sunstone_test.get_element_by_name("custom_im_mad").send_keys json[:immad]
+            end
             @utils.submit_create(@resource_tag)
         end
     end
@@ -52,7 +47,7 @@ class Host
         @utils.delete_resource(name, @general_tag, @resource_tag, @datatable)
     end
 
-    def update(name, new_name, cluster)
+    def update(name, new_name, json)
         @utils.navigate(@general_tag, @resource_tag)
         host = @utils.check_exists(2, name, @datatable)
         if host
@@ -61,15 +56,15 @@ class Host
             if new_name
                 @utils.update_name(new_name)
             end
-            if cluster
+            if json[:cluster]
                 span = @sunstone_test.get_element_by_id("#{@resource_tag}-tabmain_buttons")
                 buttons = span.find_elements(:tag_name, "button")
                 buttons[0].click
-                tr = @utils.check_exists(1, cluster, "confirm_with_select")
+                tr = @utils.check_exists(1, json[:cluster], "confirm_with_select")
                 if tr
                     tr.click
                 else
-                    fail "Cluster name: #{cluster} not exists"
+                    fail "Cluster name: #{json[:cluster]} not exists"
                 end
             end
             @utils.wait_jGrowl

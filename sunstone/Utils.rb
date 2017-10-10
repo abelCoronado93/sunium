@@ -86,8 +86,9 @@ class Utils
         res = self.check_exists(2, name, datatable)
         if res
             td = res.find_elements(tag_name: "td")[0]
-            tr = td.find_element(:class, "check_item")
-            tr.click if tr.nil? || tr == ""
+            td_input = td.find_element(:class, "check_item")
+            check = td.attribute("class")
+            td_input.click if check.nil? || check == ""
             @sunstone_test.get_element_by_id("#{resource}-tabdelete_buttons").click
             @sunstone_test.get_element_by_id("confirm_proceed").click
         else
@@ -131,20 +132,16 @@ class Utils
             }
             if attr_element
                 if attr_element.find_elements(:id, "div_edit_#{obj_attr[:key]}").size() > 0
-
                     a = attr_element.find_element(:id, "div_edit")
                     a.find_element(:tag_name, "i").click
                     @sunstone_test.get_element_by_id("input_edit_#{obj_attr[:key]}").clear
                     attr_element.find_element(:id, "div_edit").click
                     @sunstone_test.get_element_by_id("input_edit_#{obj_attr[:key]}").send_keys obj_attr[:value]
-
                 elsif  attr_element.find_elements(:id, "div_edit_table_order_link").size() > 0
-
                     a = attr_element.find_element(:id, "div_edit_table_order_link")
                     a.find_element(:tag_name, "i").click
                     options = $driver.find_elements(:xpath, "//select[@id='table_order_select']//option")
                     options.each{ |opt| opt.click if opt.text.include? obj_attr[:value]}
-
                 end
             else
                 fail "Information attribute not found: #{obj_attr[:key]}"

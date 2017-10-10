@@ -140,7 +140,7 @@ class Template
             hash = @utils.check_elements_raw(pre, hash)
 
             if !hash.empty?
-                puts "Check fail: Not Found all keys"
+                fail "Check fail: Not found all keys"
                 hash.each{ |obj| puts "#{obj[:key]} : #{obj[:value]}" }
             end
         end

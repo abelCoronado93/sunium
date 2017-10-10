@@ -20,7 +20,14 @@ RSpec.describe "Apps test" do
     end
 
     it "Download app" do
-        @app.download("15")
+        @app.download("CoreOS alpha")
+    end
+
+    it "update app" do
+        hash = [
+            {key: "DESCRIPTION", value: "selenium"}
+        ]
+        @app.update("CoreOS alpha", "", hash)
     end
 
 end

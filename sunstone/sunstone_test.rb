@@ -1,11 +1,14 @@
 require 'rubygems'
 require 'selenium-webdriver'
 require 'rspec'
+require 'headless'
 
 class SunstoneTest
 
     def initialize(auth)
-        $driver = Selenium::WebDriver.for :chrome
+        options = Selenium::WebDriver::Chrome::Options.new
+        #options.add_argument('headless')
+        $driver = Selenium::WebDriver.for :chrome, :options => options
         $driver.get "http://localhost:9869"
         
         @auth = auth

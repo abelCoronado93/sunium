@@ -7,7 +7,7 @@ RSpec.describe "VMGroup test" do
 
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -45,6 +45,12 @@ RSpec.describe "VMGroup test" do
         roles_affinity = [["b","d"]]
         roles_anti_affinity = [["a","c"]]
         @vmgrp.check("test", hash, roles_affinity, roles_anti_affinity)
+    end
+
+    it "Update vmgroup" do
+        roles_affinity = [["a","d"]]
+        roles_anti_affinity = [["b","c"]]
+        @vmgrp.update("test", roles_affinity, roles_anti_affinity)
     end
 
     it "Delete vmgroup" do

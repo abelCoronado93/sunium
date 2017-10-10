@@ -1,5 +1,4 @@
 require './sunstone/Utils'
-require 'pry'
 
 class VMGroup
 
@@ -67,7 +66,7 @@ class VMGroup
         vmgrp = @utils.check_exists(2, name, @datatable)
         if vmgrp
             vmgrp.click
-            sleep 2
+            @sunstone_test.get_element_by_id("vm_group_info_tab")
             tr_table = []
             roles_copy = hash[:roles][0 .. hash[:roles].length]
             @wait.until{
@@ -127,6 +126,8 @@ class VMGroup
             if !anti_affinity_copy.empty?
                 fail "Check fail anti_affinity roles"
             end
+        else
+            fail "VMGroup name: #{name} not exists"
         end
     end
 
@@ -134,4 +135,48 @@ class VMGroup
         @utils.delete_resource(name, @general_tag, @resource_tag, @datatable)
     end
 
+    def update(name, affinity = [], anti_affinity = [])
+        @utils.navigate(@general_tag, @resource_tag)
+        @sunstone_test.get_element_by_id(@datatable)
+        vmgrp = @utils.check_exists(2, name, @datatable)
+        if vmgrp
+            td = vmgrp.find_elements(tag_name: "td")[0]
+            td.find_element(:class, "check_item").click
+
+            span = @sunstone_test.get_element_by_id("#{@resource_tag}-tabmain_buttons")
+            buttons = span.find_elements(:tag_name, "button")
+            buttons[0].click
+
+            self.delete_affinities
+
+            dropdown = @sunstone_test.get_element_by_id("list_roles_select")
+            affinity.each{ |affined|
+                affined.each{ |rol|
+                    @sunstone_test.click_option(dropdown, "value", rol)
+                }
+                @sunstone_test.get_element_by_id("tf_btn_host_affined").click
+            }
+
+            anti_affinity.each{ |anti_affined|
+                anti_affined.each{ |rol|
+                    @sunstone_test.click_option(dropdown, "value", rol)
+                }
+                @sunstone_test.get_element_by_id("tf_btn_host_anti_affined").click
+            }
+
+            @utils.submit_create(@resource_tag)
+        else
+            fail "VMGroup name: #{name} not exists"
+        end
+    end
+
+    def delete_affinities
+        @sunstone_test.get_element_by_id("tf_btn_host_affined")
+        divs = $driver.find_elements(:class, "group_role_content")
+        if divs.length > 0
+            divs.each{ |div|
+                i = div.find_element(:tag_name, "i").click
+            }
+        end
+    end
 end

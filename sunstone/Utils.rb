@@ -86,7 +86,8 @@ class Utils
         res = self.check_exists(2, name, datatable)
         if res
             td = res.find_elements(tag_name: "td")[0]
-            td.find_element(:class, "check_item").click
+            tr = td.find_element(:class, "check_item")
+            tr.click if tr.nil? || tr == ""
             @sunstone_test.get_element_by_id("#{resource}-tabdelete_buttons").click
             @sunstone_test.get_element_by_id("confirm_proceed").click
         else

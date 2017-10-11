@@ -6,7 +6,7 @@ RSpec.describe "Group test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -39,7 +39,7 @@ RSpec.describe "Group test" do
         @group.update("test", hash)
     end
 
-    #it "Delete Group" do
-    #    @group.delete("test")
-    #end
+    it "Delete Group" do
+        @group.delete("test")
+    end
 end

@@ -1,5 +1,4 @@
 require './sunstone/Utils'
-require 'pry'
 
 class File
 
@@ -64,12 +63,12 @@ class File
             file.click
             @sunstone_test.get_element_by_id("file_info_tab-label").click
 
-            if json[:info] && !json[:info].empty?
-                @utils.update_info("//div[@id='file_info_tab']//table[@class='dataTable']", json[:info])
-            end
-
             if json[:attr] && !json[:attr].empty?
                 @utils.update_attr("file_template_table", json[:attr])
+            end
+
+            if json[:info] && !json[:info].empty?
+                @utils.update_info("//div[@id='file_info_tab']//table[@class='dataTable']", json[:info])
             end
 
             if new_name != ""

@@ -1,5 +1,6 @@
 require './sunstone/sunstone_test'
 require './sunstone/file/File'
+require 'pry'
 
 RSpec.describe "File test" do
 
@@ -16,7 +17,7 @@ RSpec.describe "File test" do
     after(:all) do
         @sunstone_test.sign_out
     end
-=begin
+
     it "Create files" do
         hash = { type: "KERNEL", path: "."}
         @file.create("test_kernel", hash)
@@ -30,7 +31,7 @@ RSpec.describe "File test" do
         ]
         @file.check("test_kernel", hash_info)
     end
-=end
+
     it "Update file" do
         hash = {
             info: [
@@ -43,8 +44,7 @@ RSpec.describe "File test" do
         @file.update("test_kernel", "file_updated", hash)
     end
 
-    #it "Delete file" do
-    #    @file.delete("test_context")
-    #end
-
+    it "Delete file" do
+        @file.delete("test_context")
+    end
 end

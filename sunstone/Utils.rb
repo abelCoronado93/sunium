@@ -8,7 +8,7 @@ class Utils
 
     def navigate_create(general, resource)
         if !$driver.find_element(:id, "#{resource}-tabcreate_buttons").displayed?
-            navigate(general,resource)
+            navigate(general, resource)
         end
         element = @sunstone_test.get_element_by_id("#{resource}-tabcreate_buttons")
         element.find_element(:class, "create_dialog_button").click if element.displayed?
@@ -112,6 +112,7 @@ class Utils
     end
 
     def update_name(new_name)
+        sleep 1
         a = @sunstone_test.get_element_by_id("div_edit_rename_link")
         a.find_element(:tag_name, "i").click
         input_name = @sunstone_test.get_element_by_id("input_edit_rename")

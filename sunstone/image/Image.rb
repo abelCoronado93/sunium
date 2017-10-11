@@ -11,45 +11,29 @@ class Image
         @wait = Selenium::WebDriver::Wait.new(:timeout => 10)
     end
 
-    def create_path(name, type, path)
+    def create(json)
         @utils.navigate(@general_tag, @resource_tag)
-
-        if !@utils.check_exists(2, name, @datatable)
+        if !@utils.check_exists(2, json[:name], @datatable)
             @utils.navigate_create(@general_tag, @resource_tag)
-
-            @sunstone_test.get_element_by_id("img_name").send_keys "#{name}"
-
-            dropdown = @sunstone_test.get_element_by_id("img_type")
-            @sunstone_test.click_option(dropdown, "value", type)
-
-            @sunstone_test.get_element_by_id("path_image").click
-
-            @sunstone_test.get_element_by_id("img_path").send_keys "#{path}"
-
+            if json[:name]
+                @sunstone_test.get_element_by_id("img_name").send_keys json[:name]
+            end
+            if json[:type]
+                dropdown = @sunstone_test.get_element_by_id("img_type")
+                @sunstone_test.click_option(dropdown, "value", json[:type])
+            end
+            if json[:path]
+                @sunstone_test.get_element_by_id("path_image").click
+                @sunstone_test.get_element_by_id("img_path").send_keys json[:path]
+            elsif json[:size]
+                @sunstone_test.get_element_by_id("datablock_img").click
+                @sunstone_test.get_element_by_id("img_size").send_keys json[:size]
+            end
             @utils.submit_create(@resource_tag)
         end
     end
 
-    def create_empty(name, type, gb_size)
-        @utils.navigate(@general_tag, @resource_tag)
-
-        if !@utils.check_exists(2, name, @datatable)
-            @utils.navigate_create(@general_tag, @resource_tag)
-
-            @sunstone_test.get_element_by_id("img_name").send_keys "#{name}"
-
-            dropdown = @sunstone_test.get_element_by_id("img_type")
-            @sunstone_test.click_option(dropdown, "value", type)
-
-            @sunstone_test.get_element_by_id("datablock_img").click
-
-            @sunstone_test.get_element_by_id("img_size").send_keys "#{gb_size}"
-
-            @utils.submit_create(@resource_tag)
-        end
-    end
-
-    def check(name,hash={})
+    def check(name, hash={})
         @utils.navigate(@general_tag, @resource_tag)
         img = @utils.check_exists(2, name, @datatable)
         if img
@@ -65,7 +49,7 @@ class Image
             hash = @utils.check_elements(tr_table, hash)
 
             if !hash.empty?
-                puts "Check fail: Not Found all keys"
+                fail "Check fail: Not found all keys"
                 hash.each{ |obj| puts "#{obj[:key]} : #{obj[:key]}" }
             end
         end
@@ -74,8 +58,8 @@ class Image
     def delete(name)
         @utils.delete_resource(name, @general_tag, @resource_tag, @datatable)
     end
-
-    def update(name, new_name, type, persistent="no")
+require 'pry'
+    def update(name, new_name, json)
         @utils.navigate(@general_tag, @resource_tag)
         image = @utils.check_exists(2, name, @datatable)
         if image
@@ -84,16 +68,24 @@ class Image
             if new_name
                 @utils.update_name(new_name)
             end
-            if type
-                a = @sunstone_test.get_element_by_id("div_edit_chg_type_link")
-                a.find_element(:tag_name, "i").click
-                dropdown = @sunstone_test.get_element_by_id("chg_type_select")
-                @sunstone_test.click_option(dropdown, "value", type)
+            if json[:info]
+                @utils.update_info("//div[@id='image_info_tab']//table[@class='dataTable']", json[:info])
             end
-            a = @sunstone_test.get_element_by_id("div_edit_persistency_link")
-            a.find_element(:tag_name, "i").click
-            dropdown = @sunstone_test.get_element_by_id("persistency_select")
-            @sunstone_test.click_option(dropdown, "value", persistent)
+
+=begin
+            if json[:type]
+                div = @sunstone_test.get_element_by_id("div_edit_chg_type")
+                div.find_element(:tag_name, "i").click
+                dropdown = @sunstone_test.get_element_by_id("chg_type_select")
+                @sunstone_test.click_option(dropdown, "value", json[:type])
+            end
+            if json[:persistent]
+                div = @sunstone_test.get_element_by_id("div_edit_persistency")
+                div.find_element(:tag_name, "i").click
+                dropdown = @sunstone_test.get_element_by_id("persistency_select")
+                @sunstone_test.click_option(dropdown, "value", json[:persistent])
+            end
+=end
             @sunstone_test.get_element_by_id("#{@resource_tag}-tabback_button").click
         else
             fail "Image name: #{name} not exists"

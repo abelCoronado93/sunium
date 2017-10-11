@@ -16,29 +16,35 @@ RSpec.describe "Image test" do
     after(:all) do
         @sunstone_test.sign_out
     end
-
-    it "Create one OS image" do
-        @image.create_path("test_os", "OS", ".")
-    end
-
-    it "Create one context file" do
-        @image.create_empty("test_datablock", "DATABLOCK", "1")
+=begin
+    it "Create images" do
+        hash = { name: "test_os", type: "OS", path: "."}
+        @image.create(hash)
+        hash = { name: "test_datablock", type: "DATABLOCK", size: "2"}
+        @image.create(hash)
     end
 
     it "Check images" do
-        hash_info=[
-            {key:"Type", value:"OS"},
-            {key:"DRIVER", value:"raw"}
+        hash_info = [
+            { key:"Type", value:"OS" },
+            { key:"DRIVER", value:"raw" }
         ]
         @image.check("test_os", hash_info)
     end
 
-    #it "Delete image" do
-    #    @image.delete("test_datablock")
-    #end
-
+=end
     it "Update image" do
-        @image.update("test_os", "image_updated", "CDROM", "yes")
+        hash = {
+            info: [
+                {key: "Type", value: "CDROM"},
+                {key: "Persistent", value: "yes"}
+            ]
+        }
+        @image.update("test_os", "image_updated", hash)
+    end
+
+    it "Delete image" do
+        #@image.delete("test_datablock")
     end
 
 end

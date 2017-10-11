@@ -12,6 +12,7 @@ class Utils
         end
         element = @sunstone_test.get_element_by_id("#{resource}-tabcreate_buttons")
         element.find_element(:class, "create_dialog_button").click if element.displayed?
+        sleep 1
     end
 
     def navigate(general, resource)
@@ -83,6 +84,7 @@ class Utils
     end
 
     def delete_resource(name, general, resource, datatable)
+        wait_jGrowl
         self.navigate(general, resource)
         res = self.check_exists(2, name, datatable)
         if res
@@ -104,6 +106,7 @@ class Utils
         end
         $driver.find_elements(:class, "jGrowl-notify-error").each { |e|
             e.find_element(:class, "jGrowl-close").click
+            sleep 0.5
         }
     end
 

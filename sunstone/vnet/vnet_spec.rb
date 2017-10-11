@@ -14,6 +14,10 @@ RSpec.describe "Network test" do
         @vnet = VNet.new(@sunstone_test)
     end
 
+    before(:each) do
+        sleep 1
+    end
+
     after(:all) do
         @sunstone_test.sign_out
     end
@@ -35,7 +39,7 @@ RSpec.describe "Network test" do
 
         @vnet.check("vnet1", hash_info, ars)
     end
-=begin
+
     it "Update vnet" do
         hash = { 
             attrs: []
@@ -46,5 +50,5 @@ RSpec.describe "Network test" do
     it "Delete vnet" do
         @vnet.delete("vnet1")
     end
-=end
+
 end

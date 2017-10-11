@@ -134,7 +134,7 @@ class User
 
             if hash[:groups]
                 @sunstone_test.get_element_by_id("user_groups_tab-label").click
-                @sunstone_test.get_element_by_id("user_groups_tab")
+                sleep 0.5
                 @sunstone_test.get_element_by_id("update_group").click
                 if hash[:groups][:primary]
                     @sunstone_test.get_element_by_id("choose_primary_grp")
@@ -153,7 +153,7 @@ class User
                         end
                     }
                 end
-                $driver.find_element(:xpath, "//div[@class='form_buttons row']//button[@type='submit']").submit
+                $driver.find_element(:xpath, "//div[@class='form_buttons row']//button[@type='submit']").click
             end
         end
     end

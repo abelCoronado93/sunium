@@ -17,11 +17,12 @@ class Utils
 
     def navigate(general, resource)
         if !$driver.find_element(:id, "#{resource}-tabcreate_buttons").displayed?
-            element = $driver.find_element(:id, "menu-toggle")
-            element.click if element.displayed?
+            @sunstone_test.get_element_by_id("menu-toggle").click if !$driver.find_element(:id, "li_#{general}-top-tab").displayed?
+            sleep 0.5
             @sunstone_test.get_element_by_id("li_#{general}-top-tab").click if !$driver.find_element(:id, "li_#{resource}-tab").displayed?
+            sleep 0.5
             @sunstone_test.get_element_by_id("li_#{resource}-tab").click
-            sleep 1
+            sleep 0.5
         end
     end
 

@@ -70,7 +70,6 @@ class Host
             end
             @utils.wait_jGrowl
             @sunstone_test.get_element_by_id("confirm_with_select_proceed").click
-            @sunstone_test.get_element_by_id("#{@resource_tag}-tabback_button").click
         else
             fail "Host name: #{name} not exists"
         end

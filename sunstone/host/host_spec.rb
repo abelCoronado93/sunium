@@ -44,7 +44,7 @@ RSpec.describe "Host test" do
     end
 
     it "Delete hosts" do
-        @host.delete("host_updated")
+        @host.delete("host_2")
       @host.delete("test1_kvm")
     end
 

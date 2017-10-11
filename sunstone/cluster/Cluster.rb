@@ -47,6 +47,7 @@ class Cluster
             }
 
             @utils.submit_create(@resource_tag)
+            @utils.wait_jGrowl
         end
     end
 
@@ -55,6 +56,7 @@ class Cluster
 
         cs = @utils.check_exists(2, name, @datatable)
         if cs
+            @utils.wait_jGrowl
             cs.click
             @sunstone_test.get_element_by_id("#{@resource_tag}-tab")
 
@@ -91,6 +93,7 @@ class Cluster
         @utils.navigate(@general_tag, @resource_tag)
         cluster = @utils.check_exists(2, name, @datatable)
         if cluster
+            @utils.wait_jGrowl
             cluster.click
             @sunstone_test.get_element_by_id("cluster_info_tab")
             @sunstone_test.get_element_by_id("clusters-tabmain_buttons").click
@@ -132,6 +135,7 @@ class Cluster
                 }
             end
             @utils.submit_create(@resource_tag)
+            @utils.wait_jGrowl
         end
     end
 

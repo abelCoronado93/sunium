@@ -28,7 +28,8 @@ class Utils
     def submit_create(resource)
         element = @sunstone_test.get_element_by_id("#{resource}-tabsubmit_button")
         element.find_element(:class, "submit_button").click if element.displayed?
-        sleep 2
+        sleep 1
+        wait_jGrowl
     end
 
     # num_col: datatable column number (0: id, 1: name...)

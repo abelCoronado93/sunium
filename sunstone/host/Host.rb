@@ -51,8 +51,9 @@ class Host
         @utils.navigate(@general_tag, @resource_tag)
         host = @utils.check_exists(2, name, @datatable)
         if host
+            @utils.wait_jGrowl
             host.click
-            @sunstone_test.get_element_by_id("host_info_tab-label").click
+            @sunstone_test.get_element_by_id("host_info_tab-label")
             if new_name
                 @utils.update_name(new_name)
             end
@@ -69,7 +70,6 @@ class Host
             end
             @utils.wait_jGrowl
             @sunstone_test.get_element_by_id("confirm_with_select_proceed").click
-            @sunstone_test.get_element_by_id("#{@resource_tag}-tabback_button").click
         else
             fail "Host name: #{name} not exists"
         end

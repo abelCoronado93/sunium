@@ -56,8 +56,8 @@ RSpec.describe "User test" do
         @user.update("Doe", hash)
     end
 
-    it "Delete user" do
-        @user.delete("John")
-    end
+    #it "Delete user" do
+    #    @user.delete("John")
+    #end
 
 end

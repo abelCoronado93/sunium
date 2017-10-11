@@ -7,7 +7,7 @@ RSpec.describe "Network test" do
 
         @auth = {
             :username => "oneadmin",
-            :password => "mypassword"
+            :password => "opennebula"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -19,10 +19,10 @@ RSpec.describe "Network test" do
     end
 
     it "Create vnet" do
-        hash = [ {key: "BRIDGE", value: "br0"} ]
+        hash = {BRIDGE: "br0"}
         ars = [
-            {type: "ip4", IP: "192.168.0.1", SIZE: "100"},
-            {type: "ip4", IP: "192.168.0.2", SIZE: "10"}
+            {type: "ip4", ip: "192.168.0.1", size: "100"},
+            {type: "ip4", ip: "192.168.0.2", size: "10"}
         ]
         @vnet.create("vnet1", hash, ars)
     end
@@ -35,18 +35,16 @@ RSpec.describe "Network test" do
 
         @vnet.check("vnet1", hash_info, ars)
     end
-
-    it "Delete vnet" do
-        @vnet.delete("vnet1")
-    end
-
+=begin
     it "Update vnet" do
         hash = { 
-            attrs: [
-                {key:"BRIDGE", value:"br1"}
-            ]
+            attrs: []
         }
         @vnet.update("vnet1","", hash)
     end
 
+    it "Delete vnet" do
+        @vnet.delete("vnet1")
+    end
+=end
 end

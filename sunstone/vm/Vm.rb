@@ -35,7 +35,7 @@ class Vm
     def custom_instantiate(template_name, json)
         self.navigate_create
 
-        tr = @utils.check_exists(1, template_name "vm_create")
+        tr = @utils.check_exists(1, template_name, "vm_create")
         if tr
             tr.click
             if json[:name]

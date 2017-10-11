@@ -6,7 +6,7 @@ RSpec.describe "Host test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "mypassword"
+            :password => "opennebula"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -40,12 +40,12 @@ RSpec.describe "Host test" do
 
     it "Update host" do
         hash = { cluster: "test1" }
-        @host.update("test1_dummy", "host_updated", hash)
+        @host.update("test1_dummy", "host_2", hash)
     end
 
     it "Delete hosts" do
-        @host.delete("host_updated")
-        @host.delete("test1_kvm")
+        @host.delete("host_2")
+      @host.delete("test1_kvm")
     end
 
 end

@@ -39,7 +39,7 @@ RSpec.describe "Group test" do
         @group.update("test", hash)
     end
 
-    it "Delete Group" do
-        @group.delete("test")
-    end
+    #it "Delete Group" do
+    #    @group.delete("test")
+    #end
 end

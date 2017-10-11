@@ -1,4 +1,5 @@
 require './sunstone/Utils'
+require 'pry'
 
 class VNet
 
@@ -29,16 +30,20 @@ class VNet
                 i = 0
                 ars.each{ |ar|
                     @sunstone_test.get_element_by_id("ar#{i}_ar_type_#{ar[:type]}").click
+
                     if ar[:type] == "ip6" || ar[:type] == "ether"
                         @sunstone_test.get_element_by_id("ar#{i}_mac_start").send_keys "#{ar[:mac]}"
                     else
                         @sunstone_test.get_element_by_id("ar#{i}_ip_start").send_keys "#{ar[:ip]}"
                     end
+
                     @sunstone_test.get_element_by_id("ar#{i}_size").send_keys "#{ar[:size]}"
 
                     @sunstone_test.get_element_by_id("vnet_wizard_ar_btn").click
                     i+=1
                 }
+
+                $driver.find_element(:xpath, "//a[@id='ar_tabar#{i}']//i").click
             end
 
             @utils.submit_create(@resource_tag)

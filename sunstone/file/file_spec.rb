@@ -6,7 +6,7 @@ RSpec.describe "File test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "mypassword"
+            :password => "opennebula"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -32,9 +32,9 @@ RSpec.describe "File test" do
         @file.check("test_kernel", hash_info)
     end
 
-    it "Delete file" do
-        @file.delete("test_context")
-    end
+    #it "Delete file" do
+    #    @file.delete("test_context")
+    #end
 
     it "Update file" do
         @file.update("test_kernel", "file_updated", "RAMDISK")

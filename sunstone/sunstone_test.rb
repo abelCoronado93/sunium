@@ -31,6 +31,7 @@ class SunstoneTest
     end
 
     def sign_out
+        sleep 1
         self.get_element_by_id("userselector").click
         $driver.find_element(:class, "logout").click
         

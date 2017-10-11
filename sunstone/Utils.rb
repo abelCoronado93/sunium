@@ -134,17 +134,16 @@ class Utils
                 end
             }
             if attr_element
-                if attr_element.find_elements(:id, "div_edit_#{obj_attr[:key]}").size() > 0
-                    a = attr_element.find_element(:id, "div_edit")
-                    a.find_element(:tag_name, "i").click
-                    @sunstone_test.get_element_by_id("input_edit_#{obj_attr[:key]}").clear
-                    attr_element.find_element(:id, "div_edit").click
-                    @sunstone_test.get_element_by_id("input_edit_#{obj_attr[:key]}").send_keys obj_attr[:value]
-                elsif  attr_element.find_elements(:id, "div_edit_table_order_link").size() > 0
-                    a = attr_element.find_element(:id, "div_edit_table_order_link")
-                    a.find_element(:tag_name, "i").click
-                    options = $driver.find_elements(:xpath, "//select[@id='table_order_select']//option")
-                    options.each{ |opt| opt.click if opt.text.include? obj_attr[:value]}
+                td = attr_element.find_elements(tag_name: "td")[2] #edit
+                td.find_element(:tag_name, "i").click
+                td_value = attr_element.find_elements(tag_name: "td")[1]
+                dropdown = td_value.find_elements(:tag_name, "select")
+                if dropdown.size() > 0 #is select
+                    @sunstone_test.click_option(dropdown[0], "value", obj_attr[:value])
+                else
+                    input = td_value.find_element(:tag_name, "input")
+                    input.clear
+                    input.send_keys obj_attr[:value]
                 end
             else
                 fail "Information attribute not found: #{obj_attr[:key]}"

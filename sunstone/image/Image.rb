@@ -58,34 +58,19 @@ class Image
     def delete(name)
         @utils.delete_resource(name, @general_tag, @resource_tag, @datatable)
     end
-require 'pry'
+
     def update(name, new_name, json)
         @utils.navigate(@general_tag, @resource_tag)
         image = @utils.check_exists(2, name, @datatable)
         if image
             image.click
             @sunstone_test.get_element_by_id("image_info_tab-label").click
-            if new_name
+            if new_name != ""
                 @utils.update_name(new_name)
             end
-            if json[:info]
+            if json[:info] && !json[:info].empty?
                 @utils.update_info("//div[@id='image_info_tab']//table[@class='dataTable']", json[:info])
             end
-
-=begin
-            if json[:type]
-                div = @sunstone_test.get_element_by_id("div_edit_chg_type")
-                div.find_element(:tag_name, "i").click
-                dropdown = @sunstone_test.get_element_by_id("chg_type_select")
-                @sunstone_test.click_option(dropdown, "value", json[:type])
-            end
-            if json[:persistent]
-                div = @sunstone_test.get_element_by_id("div_edit_persistency")
-                div.find_element(:tag_name, "i").click
-                dropdown = @sunstone_test.get_element_by_id("persistency_select")
-                @sunstone_test.click_option(dropdown, "value", json[:persistent])
-            end
-=end
             @sunstone_test.get_element_by_id("#{@resource_tag}-tabback_button").click
         else
             fail "Image name: #{name} not exists"

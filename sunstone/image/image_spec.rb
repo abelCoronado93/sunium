@@ -6,7 +6,7 @@ RSpec.describe "Image test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -16,7 +16,7 @@ RSpec.describe "Image test" do
     after(:all) do
         @sunstone_test.sign_out
     end
-=begin
+
     it "Create images" do
         hash = { name: "test_os", type: "OS", path: "."}
         @image.create(hash)
@@ -32,11 +32,10 @@ RSpec.describe "Image test" do
         @image.check("test_os", hash_info)
     end
 
-=end
     it "Update image" do
         hash = {
             info: [
-                {key: "Type", value: "CDROM"},
+                {key: "Type", value: "DATABLOCK"},
                 {key: "Persistent", value: "yes"}
             ]
         }

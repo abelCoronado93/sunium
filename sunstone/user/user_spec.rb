@@ -17,7 +17,7 @@ RSpec.describe "User test" do
     after(:all) do
         @sunstone_test.sign_out
     end
-=begin
+
     it "Create users, normal and admin" do
         hash = {
             primary: "users",
@@ -42,13 +42,13 @@ RSpec.describe "User test" do
         }
         @user.check("oneadmin", hash)
     end
-=end
+
     it "update users" do
         hash={
             info: [
-                {key: "Table Order", value: "ascending"}
+                {key: "Table Order", value: "desc"}
             ],
-            attrs: [
+            attr: [
                 {key: "hola", value: "adios"}
             ],
             groups:{primary:"oneadmin", secondary:["oneadmin"]}
@@ -56,8 +56,8 @@ RSpec.describe "User test" do
         @user.update("Doe", hash)
     end
 
-    #it "Delete user" do
-    #    @user.delete("John")
-    #end
+    it "Delete user" do
+        @user.delete("John")
+    end
 
 end

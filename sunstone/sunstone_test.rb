@@ -2,7 +2,7 @@ require 'rubygems'
 require 'selenium-webdriver'
 require 'rspec'
 require 'headless'
-
+require 'pry'
 class SunstoneTest
 
     def initialize(auth)

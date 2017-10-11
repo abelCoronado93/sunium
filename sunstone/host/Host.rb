@@ -51,8 +51,9 @@ class Host
         @utils.navigate(@general_tag, @resource_tag)
         host = @utils.check_exists(2, name, @datatable)
         if host
+            @utils.wait_jGrowl
             host.click
-            @sunstone_test.get_element_by_id("host_info_tab-label").click
+            @sunstone_test.get_element_by_id("host_info_tab-label")
             if new_name
                 @utils.update_name(new_name)
             end

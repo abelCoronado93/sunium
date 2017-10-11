@@ -33,9 +33,9 @@ RSpec.describe "Image test" do
         @image.check("test_os", hash_info)
     end
 
-    it "Delete image" do
-        @image.delete("test_datablock")
-    end
+    #it "Delete image" do
+    #    @image.delete("test_datablock")
+    #end
 
     it "Update image" do
         @image.update("test_os", "image_updated", "CDROM", "yes")

@@ -7,7 +7,7 @@ class SunstoneTest
 
     def initialize(auth)
         options = Selenium::WebDriver::Chrome::Options.new
-        options.add_argument('headless')
+        #options.add_argument('headless')
         $driver = Selenium::WebDriver.for :chrome, :options => options
         $driver.get "http://localhost:9869"
         
@@ -31,6 +31,7 @@ class SunstoneTest
     end
 
     def sign_out
+        sleep 1
         self.get_element_by_id("userselector").click
         $driver.find_element(:class, "logout").click
         

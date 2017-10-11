@@ -34,7 +34,7 @@ RSpec.describe "Datastore test" do
         @ds.check("test1", hash_info)
     end
 
-    it "Delete datastore" do
-        @ds.delete("test1")
-    end
+    #it "Delete datastore" do
+    #    @ds.delete("test1")
+    #end
 end

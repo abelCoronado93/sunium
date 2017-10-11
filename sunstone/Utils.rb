@@ -1,4 +1,5 @@
 require './sunstone/sunstone_test'
+require 'pry'
 
 class Utils
     def initialize(sunstone_test)
@@ -98,14 +99,12 @@ class Utils
     end
 
     def wait_jGrowl
-        begin
-            while true do
-                element = $driver.find_element(:class, "jGrowl-message")
-                sleep 0.5
-            end
-        rescue Selenium::WebDriver::Error::NoSuchElementError
-
+        while $driver.find_elements(:class, "jGrowl-notify-submit").size() > 0 do
+            sleep 0.5
         end
+        $driver.find_elements(:class, "jGrowl-notify-error").each { |e|
+            e.find_element(:class, "jGrowl-close").click
+        }
     end
 
     def update_name(new_name)

@@ -72,9 +72,9 @@ RSpec.describe "Template test" do
         @template.check("test_basic", hash_info)
     end
 
-    it "Delete template" do
-        @template.delete("test_basic")
-    end
+    #it "Delete template" do
+    #    @template.delete("test_basic")
+    #end
 
     it "Update template" do
         @template.navigate_update("test1")

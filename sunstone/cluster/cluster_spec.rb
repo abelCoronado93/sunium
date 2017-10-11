@@ -18,7 +18,7 @@ RSpec.describe "Cluster test" do
     end
 
     it "Create cluster" do
-        hosts = ["default"]
+        hosts = []
         vnets = ["vnet1"]
         ds = ["default"]
         @cluster.create("test1", hosts, vnets, ds)

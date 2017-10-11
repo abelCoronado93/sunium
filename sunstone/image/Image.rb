@@ -65,11 +65,13 @@ class Image
         if image
             image.click
             @sunstone_test.get_element_by_id("image_info_tab-label").click
-            if new_name != ""
-                @utils.update_name(new_name)
-            end
+
             if json[:info] && !json[:info].empty?
                 @utils.update_info("//div[@id='image_info_tab']//table[@class='dataTable']", json[:info])
+            end
+
+            if new_name != ""
+                @utils.update_name(new_name)
             end
             @sunstone_test.get_element_by_id("#{@resource_tag}-tabback_button").click
         else

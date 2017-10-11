@@ -43,7 +43,7 @@ RSpec.describe "Image test" do
     end
 
     it "Delete image" do
-        #@image.delete("test_datablock")
+        @image.delete("test_datablock")
     end
 
 end

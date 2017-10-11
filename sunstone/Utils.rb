@@ -150,6 +150,7 @@ class Utils
             end
             wait_jGrowl
         }
+
     end
 
     def update_attr(datatable_name, attrs)

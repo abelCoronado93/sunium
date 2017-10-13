@@ -13,8 +13,14 @@ class Template
         @nic_cont = 1
     end
 
-    def navigate_create
-        @utils.navigate_create(@general_tag, @resource_tag)
+    def navigate_create(name)
+        @utils.navigate(@general_tag, @resource_tag)
+        binding.pry
+        if !@utils.check_exists(2, name, @datatable)
+            @utils.navigate_create(@general_tag, @resource_tag)
+            return true
+        end
+        return false
     end
 
     def navigate_update(name)

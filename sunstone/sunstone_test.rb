@@ -7,7 +7,7 @@ class SunstoneTest
 
     def initialize(auth)
         options = Selenium::WebDriver::Chrome::Options.new
-        options.add_argument('headless')
+        #options.add_argument('headless')
         $driver = Selenium::WebDriver.for :chrome, :options => options
         $driver.get "http://localhost:9869"
         

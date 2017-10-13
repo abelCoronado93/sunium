@@ -8,7 +8,7 @@ RSpec.describe "Template test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "mypassword"
+            :password => "opennebula"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -94,7 +94,7 @@ RSpec.describe "Template test" do
             { key: "LISTEN", value: "0.0.0.0" },
             { key: "TYPE", value: "VNC" }
         ]
-        @template.check("test_basic", hash_info)
+        @template.check("temp_basic", hash_info)
     end
 
     it "Update template" do
@@ -111,7 +111,7 @@ RSpec.describe "Template test" do
     end
 
     it "Delete template" do
-        @template.delete("test_basic")
+        @template.delete("temp_basic")
     end
 
 end

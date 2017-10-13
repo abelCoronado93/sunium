@@ -15,7 +15,6 @@ class Template
 
     def navigate_create(name)
         @utils.navigate(@general_tag, @resource_tag)
-        binding.pry
         if !@utils.check_exists(2, name, @datatable)
             @utils.navigate_create(@general_tag, @resource_tag)
             return true
@@ -82,11 +81,11 @@ class Template
                 div.find_element(:xpath, "//div[@diskid='#{i}']//Input[@value='volatile']").click
                 div.find_element(:xpath, "//div[@diskid='#{i}']//div[@class='volatile']//Input[@id='SIZE']").send_keys disk[:size]
                 if disk[:type]
-                    dropdown = div.find_element(:xpath, "//div[@diskid='#{i}']//div[@class='volatile']//select[@id='TYPE']")
+                    dropdown = div.find_element(:xpath, "//div[@diskid='#{i}']//div[@class='volatile']//select[@id='TYPE_KVM']")
                     @sunstone_test.click_option(dropdown, "value", disk[:type])
                 end
                 if disk[:format]
-                    dropdown = div.find_element(:xpath, "//div[@diskid='#{i}']//div[@class='volatile']//select[@id='FORMAT']")
+                    dropdown = div.find_element(:xpath, "//div[@diskid='#{i}']//div[@class='volatile']//select[@id='FORMAT_KVM']")
                     @sunstone_test.click_option(dropdown, "value", disk[:format])
                 end
                 @sunstone_test.get_element_by_id("tf_btn_disks").click
@@ -154,7 +153,20 @@ class Template
     end
 
     def delete(name)
-        @utils.delete_resource(name, @general_tag, @resource_tag, @datatable)
+        @utils.wait_jGrowl
+        @utils.navigate(@general_tag, @resource_tag)
+        res = @utils.check_exists(2, name, @datatable)
+        if res
+            td = res.find_elements(tag_name: "td")[0]
+            td_input = td.find_element(:class, "check_item")
+            check = td.attribute("class")
+            td_input.click if check.nil? || check == ""
+            @sunstone_test.get_element_by_id("#{@resource_tag}-tabdelete_buttons").click
+            $driver.find_element(:xpath, "//div[@id='genericConfirmDialog']//button[@submit='0']").click
+        else
+            fail "Error delete: Template not found"
+        end
+        sleep 2
     end
 
     def update_general(json)

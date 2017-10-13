@@ -149,7 +149,7 @@ class User
                             check = select_grp.find_elements(tag_name: "td")[0].attribute("class")
                             select_grp.click if check.nil? || check == ""
                         else
-                            fail "Datastore name not found: #{group}"
+                            fail "Group name not found: #{group}"
                         end
                     }
                 end

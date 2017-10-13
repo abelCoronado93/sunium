@@ -38,7 +38,17 @@ RSpec.describe "Datastore test" do
         @ds.check("test1", hash_info)
     end
 
-    #it "Delete datastore" do
-    #    @ds.delete("test1")
-    #end
+    it "update datastore" do
+        hash ={
+            info: [],
+            attrs: [
+                {key: "ALLOW_ORPHANS", value: "YES"}
+            ]
+        }
+        @ds.update("test1", "new_name" , hash)
+    end
+
+    it "Delete datastore" do
+        @ds.delete("new_name")
+    end
 end

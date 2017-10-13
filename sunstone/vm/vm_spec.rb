@@ -7,22 +7,25 @@ RSpec.describe "Vm test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "mypassword"
+            :password => "opennebula"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
         @vm = Vm.new(@sunstone_test)
         @template = Template.new(@sunstone_test)
 
-        @template.navigate_create
+        
         hash_template1 = { name: "test1", mem: "2", cpu: "0.1" }
         hash_template2 = { name: "test2", mem: "2", cpu: "0.1" }
-
-        @template.add_general(hash_template1)
-        @template.submit
-        @template.navigate_create
-        @template.add_general(hash_template2)
-        @template.submit
+        if @template.navigate_create("test1")
+            @template.add_general(hash_template1)
+            @template.submit
+        end
+        
+        if @template.navigate_create("test2")
+            @template.add_general(hash_template2)
+            @template.submit
+        end
     end
 
     before(:each) do

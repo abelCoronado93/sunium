@@ -10,17 +10,13 @@ RSpec.describe "Cluster test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "mypassword"
+            :password => "opennebula"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
         @cluster = Cluster.new(@sunstone_test)
         @vnet = VNet.new(@sunstone_test)
         @ds = Datastore.new(@sunstone_test)
-
-        @hosts = []
-        @vnets = ["vnet2"]
-        @ddss = ["default"]
 
         hash_vnet = {BRIDGE: "br0"}
         ars_vnet = [
@@ -44,7 +40,10 @@ RSpec.describe "Cluster test" do
     end
 
     it "Create cluster" do
-        @cluster.create("cluster", @hosts, @vnets, @ddss)
+        hosts = []
+        vnets = ["vnet2"]
+        ddss = ["default"]
+        @cluster.create("cluster", hosts, vnets, ddss)
     end
 
     it "check cluster" do

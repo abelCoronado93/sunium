@@ -1,4 +1,5 @@
 require './sunstone/Utils'
+require 'pry'
 
 class Datastore
 
@@ -51,6 +52,23 @@ class Datastore
                 puts "Check fail: Not Found all keys"
                 hash.each{ |obj| puts "#{obj[:key]} : #{obj[:value]}" }
                 fail
+            end
+        end
+    end
+
+    def update(ds_name, new_name, hash)
+        @utils.navigate(@general_tag, @resource_tag)
+        ds = @utils.check_exists(2, ds_name, @datatable)
+        if ds
+            ds.click
+            @sunstone_test.get_element_by_id("datastore_info_tab")
+
+            if hash[:attrs] && !hash[:attrs].empty?
+                @utils.update_attr("datastore_template_table", hash[:attrs])
+            end
+
+            if new_name != ""
+                @utils.update_name(new_name)
             end
         end
     end

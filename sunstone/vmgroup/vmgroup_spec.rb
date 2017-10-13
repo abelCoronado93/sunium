@@ -15,6 +15,10 @@ RSpec.describe "VMGroup test" do
         @wait = Selenium::WebDriver::Wait.new(:timeout => 15)
     end
 
+    before(:each) do
+        sleep 1
+    end
+
     after(:all) do
         @sunstone_test.sign_out
     end

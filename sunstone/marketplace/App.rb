@@ -10,7 +10,7 @@ class App
         @utils = Utils.new(sunstone_test)
     end
 
-    def download(name)
+    def download(name, name_ds)
         @utils.navigate(@general_tag, @resource_tag)
         app = @utils.check_exists(2, name, @datatable)
         if app
@@ -19,9 +19,12 @@ class App
             element = @sunstone_test.get_element_by_id("#{@resource_tag}-tabmain_buttons")
             element.find_element(:class, "fa-cloud-download").click
 
-            table = @sunstone_test.get_element_by_id("exportMarketPlaceAppFormdatastoresTable")
-            tr_table = table.find_elements(tag_name: 'tr')
-            tr_table[1].click if tr_table.length > 1
+            ds = @utils.check_exists(1, name_ds, "exportMarketPlaceAppFormdatastoresTable")
+            if ds
+                ds.click
+            else
+                fail "Datastore not found"
+            end
 
             @utils.submit_create(@resource_tag)
         else

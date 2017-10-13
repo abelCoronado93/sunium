@@ -13,6 +13,10 @@ RSpec.describe "Group test" do
         @group = Group.new(@sunstone_test)
     end
 
+    before(:each) do
+        sleep 1
+    end
+
     after(:all) do
         @sunstone_test.sign_out
     end
@@ -39,7 +43,7 @@ RSpec.describe "Group test" do
         @group.update("test", hash)
     end
 
-    #it "Delete Group" do
-    #    @group.delete("test")
-    #end
+    it "Delete Group" do
+        @group.delete("test")
+    end
 end

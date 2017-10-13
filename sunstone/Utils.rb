@@ -22,14 +22,14 @@ class Utils
             @sunstone_test.get_element_by_id("li_#{general}-top-tab").click if !$driver.find_element(:id, "li_#{resource}-tab").displayed?
             sleep 0.5
             @sunstone_test.get_element_by_id("li_#{resource}-tab").click
-            sleep 0.5
+            sleep 1
         end
     end
 
     def submit_create(resource)
         element = @sunstone_test.get_element_by_id("#{resource}-tabsubmit_button")
         element.find_element(:class, "submit_button").click if element.displayed?
-        sleep 1
+        sleep 2
         wait_jGrowl
     end
 
@@ -151,7 +151,6 @@ class Utils
             end
             wait_jGrowl
         }
-
     end
 
     def update_attr(datatable_name, attrs)

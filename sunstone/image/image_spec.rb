@@ -6,11 +6,15 @@ RSpec.describe "Image test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "mypassword"
+            :password => "opennebula"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
         @image = Image.new(@sunstone_test)
+    end
+
+    before(:each) do
+        sleep 1
     end
 
     after(:all) do

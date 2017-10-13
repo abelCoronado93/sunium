@@ -1,4 +1,5 @@
 require './sunstone/Utils'
+require 'pry'
 
 class Template
 
@@ -75,11 +76,11 @@ class Template
                 div.find_element(:xpath, "//div[@diskid='#{i}']//Input[@value='volatile']").click
                 div.find_element(:xpath, "//div[@diskid='#{i}']//div[@class='volatile']//Input[@id='SIZE']").send_keys disk[:size]
                 if disk[:type]
-                    dropdown = div.find_element(:xpath, "//div[@diskid='#{i}']//div[@class='volatile']//select[@id='TYPE_KVM']")
+                    dropdown = div.find_element(:xpath, "//div[@diskid='#{i}']//div[@class='volatile']//select[@id='TYPE']")
                     @sunstone_test.click_option(dropdown, "value", disk[:type])
                 end
                 if disk[:format]
-                    dropdown = div.find_element(:xpath, "//div[@diskid='#{i}']//div[@class='volatile']//select[@id='FORMAT_KVM']")
+                    dropdown = div.find_element(:xpath, "//div[@diskid='#{i}']//div[@class='volatile']//select[@id='FORMAT']")
                     @sunstone_test.click_option(dropdown, "value", disk[:format])
                 end
                 @sunstone_test.get_element_by_id("tf_btn_disks").click

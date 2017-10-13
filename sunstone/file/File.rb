@@ -63,6 +63,7 @@ class File
         if file
             file.click
             @sunstone_test.get_element_by_id("file_info_tab-label").click
+            @sunstone_test.get_element_by_id("file_info_tab")
 
             if json[:info] && !json[:info].empty?
                 @utils.update_info("//div[@id='file_info_tab']//table[@class='dataTable']", json[:info])
@@ -71,6 +72,7 @@ class File
             if json[:attr] && !json[:attr].empty?
                 @utils.update_attr("file_template_table", json[:attr])
             end
+            @utils.wait_jGrowl
 
             if new_name != ""
                 @utils.update_name(new_name)

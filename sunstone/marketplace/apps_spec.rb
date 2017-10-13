@@ -1,5 +1,6 @@
 require './sunstone/sunstone_test'
 require './sunstone/marketplace/App'
+require './sunstone/datastore/Datastore'
 
 RSpec.describe "Apps test" do
 
@@ -13,6 +14,17 @@ RSpec.describe "Apps test" do
         @sunstone_test.login
         @app = App.new(@sunstone_test)
         @wait = Selenium::WebDriver::Wait.new(:timeout => 15)
+        @ds = Datastore.new(@sunstone_test)
+
+        hash={
+            tm: "dummy",
+            type: "system"
+        }
+        @ds.create("ds_apps", hash)
+    end
+
+    before(:each) do
+        sleep 1
     end
 
     after(:all) do
@@ -20,7 +32,7 @@ RSpec.describe "Apps test" do
     end
 
     it "Download app" do
-        @app.download("CoreOS alpha")
+        @app.download("CoreOS alpha", "ds_apps")
     end
 
     it "update app" do

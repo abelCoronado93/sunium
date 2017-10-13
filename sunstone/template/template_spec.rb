@@ -1,5 +1,7 @@
 require './sunstone/sunstone_test'
 require './sunstone/template/Template'
+require './sunstone/vnet/VNet'
+require './sunstone/image/Image'
 
 RSpec.describe "Template test" do
 
@@ -11,6 +13,20 @@ RSpec.describe "Template test" do
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
         @template = Template.new(@sunstone_test)
+        @vnet = VNet.new(@sunstone_test)
+        @image = Image.new(@sunstone_test)
+
+        hash = {BRIDGE: "br0"}
+        ars = [
+            {type: "ip4", ip: "192.168.0.1", size: "100"},
+            {type: "ip4", ip: "192.168.0.2", size: "10"}
+        ]
+        @vnet.create("vnet1", hash, ars)
+
+        hash = { name: "test_os", type: "OS", path: "."}
+        @image.create(hash)
+        hash = { name: "test_datablock", type: "DATABLOCK", size: "2"}
+        @image.create(hash)
     end
 
     before(:each) do
@@ -75,8 +91,8 @@ RSpec.describe "Template test" do
 
     it "Check templates" do
         hash_info = [
-            { key:"LISTEN", value:"0.0.0.0" },
-            { key:"TYPE", value:"VNC" }
+            { key: "LISTEN", value: "0.0.0.0" },
+            { key: "TYPE", value: "VNC" }
         ]
         @template.check("test_basic", hash_info)
     end

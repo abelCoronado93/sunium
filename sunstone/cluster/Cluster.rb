@@ -16,8 +16,8 @@ class Cluster
 
         if !@utils.check_exists(2, name, @datatable)
             @utils.navigate_create(@general_tag, @resource_tag)
-
-            @sunstone_test.get_element_by_id("name").send_keys "#{name}"
+            @sunstone_test.get_element_by_id("clusters-tab-wizardForms")
+            $driver.find_element(:id, "name").send_keys name
             hosts.each{ |host_name|
                 host = @utils.check_exists(1, host_name, "cluster_wizard_hosts")
                 if host

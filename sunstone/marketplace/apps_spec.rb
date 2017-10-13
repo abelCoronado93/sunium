@@ -18,7 +18,7 @@ RSpec.describe "Apps test" do
 
         hash={
             tm: "dummy",
-            type: "system"
+            type: "image"
         }
         @ds.create("ds_apps", hash)
     end

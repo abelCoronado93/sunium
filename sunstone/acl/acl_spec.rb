@@ -6,7 +6,7 @@ RSpec.describe "Acl test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -23,7 +23,7 @@ RSpec.describe "Acl test" do
 
     it "Create acl" do
         hash = {
-            resources:["host","image"],
+            resources: ["host", "image"],
             subset: "all", 
             operations: ["manage"]
         }

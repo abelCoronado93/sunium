@@ -3,12 +3,14 @@ require './sunstone/cluster/Cluster'
 require './sunstone/vnet/VNet'
 require './sunstone/datastore/Datastore'
 
+require 'pry'
+
 RSpec.describe "Cluster test" do
 
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -16,9 +18,9 @@ RSpec.describe "Cluster test" do
         @vnet = VNet.new(@sunstone_test)
         @ds = Datastore.new(@sunstone_test)
 
-        hosts = []
-        vnets = ["vnet2"]
-        ds = ["default"]
+        @hosts = []
+        @vnets = ["vnet2"]
+        @ddss = ["default"]
 
         hash_vnet = {BRIDGE: "br0"}
         ars_vnet = [
@@ -26,7 +28,7 @@ RSpec.describe "Cluster test" do
         ]
         @vnet.create("vnet2", hash_vnet, ars_vnet)
 
-        hash={
+        hash = {
             tm: "dummy",
             type: "system"
         }
@@ -42,11 +44,11 @@ RSpec.describe "Cluster test" do
     end
 
     it "Create cluster" do
-        @cluster.create("cluster", hosts, vnets, ds)
+        @cluster.create("cluster", @hosts, @vnets, @ddss)
     end
 
     it "check cluster" do
-        hash_info={ 
+        hash_info = {
             hosts: [],
             vnets: ["vnet2"],
             ds: ["default"]
@@ -56,16 +58,16 @@ RSpec.describe "Cluster test" do
     end
 
     it "Update cluster" do
-        hash_ds={
+        hash_ds = {
             tm: "dummy",
             type: "system"
         }
         @ds.create("ds", hash_ds)
 
         hash = {
-            hosts:[],
-            vnets:[],
-            ds:["ds"]
+            hosts: [],
+            vnets: [],
+            ds: ["ds"]
         }
         @cluster.update("cluster", hash)
     end

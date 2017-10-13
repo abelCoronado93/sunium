@@ -1,5 +1,6 @@
 require './sunstone/sunstone_test'
 require './sunstone/host/Host'
+require './sunstone/cluster/Cluster'
 
 RSpec.describe "Host test" do
 
@@ -10,7 +11,12 @@ RSpec.describe "Host test" do
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
+        @cluster = Cluster.new(@sunstone_test)
         @host = Host.new(@sunstone_test)
+    end
+
+    before(:each) do
+        sleep 1
     end
 
     after(:all) do
@@ -39,7 +45,8 @@ RSpec.describe "Host test" do
     end
 
     it "Update host" do
-        hash = { cluster: "test1" }
+        @cluster.create("test_cl_host", [], [], [])
+        hash = { cluster: "test_cl_host" }
         @host.update("test1_dummy", "host_2", hash)
     end
 

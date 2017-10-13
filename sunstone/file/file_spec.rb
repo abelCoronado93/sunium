@@ -7,11 +7,15 @@ RSpec.describe "File test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "mypassword"
+            :password => "opennebula"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
         @file = File.new(@sunstone_test)
+    end
+
+    before(:each) do
+        sleep 1
     end
 
     after(:all) do
@@ -19,10 +23,10 @@ RSpec.describe "File test" do
     end
 
     it "Create files" do
-        hash = { type: "KERNEL", path: "."}
-        @file.create("test_kernel", hash)
-        hash = { type: "CONTEXT", path: "."}
-        @file.create("test_context", hash)
+        hash_kernel = { type: "KERNEL", path: '.'}
+        hash_context = { type: "CONTEXT", path: '.'}
+        @file.create("test_context", hash_context)
+        @file.create("test_kernel", hash_kernel)
     end
 
     it "Check files" do
@@ -34,12 +38,8 @@ RSpec.describe "File test" do
 
     it "Update file" do
         hash = {
-            info: [
-                {key: "Type", value: "RAMDISK"}
-            ],
-            attr: [
-                {key: "hola", value: "adios"}
-            ]
+            info: [{key: "Type", value: "RAMDISK"}],
+            attr: [{key: "hola", value: "adios"}]
         }
         @file.update("test_kernel", "file_updated", hash)
     end
@@ -47,4 +47,5 @@ RSpec.describe "File test" do
     it "Delete file" do
         @file.delete("test_context")
     end
+  
 end

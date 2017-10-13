@@ -13,6 +13,10 @@ RSpec.describe "Acl test" do
         @acl = Acl.new(@sunstone_test)
     end
 
+    before(:each) do
+        sleep 1
+    end
+
     after(:all) do
         @sunstone_test.sign_out
     end

@@ -6,12 +6,16 @@ RSpec.describe "User test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "mypassword"
+            :password => "opennebula"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
         @user = User.new(@sunstone_test)
         @wait = Selenium::WebDriver::Wait.new(:timeout => 15)
+    end
+
+    before(:each) do
+        sleep 1
     end
 
     after(:all) do

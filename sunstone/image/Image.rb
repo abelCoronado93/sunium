@@ -73,6 +73,7 @@ class Image
             if new_name != ""
                 @utils.update_name(new_name)
             end
+            binding.pry
             @sunstone_test.get_element_by_id("#{@resource_tag}-tabback_button").click
         else
             fail "Image name: #{name} not exists"

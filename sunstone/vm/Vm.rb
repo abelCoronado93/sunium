@@ -28,7 +28,7 @@ class Vm
             tr.click
             @utils.submit_create(@resource_tag)
         else
-            fail "Template name: #{template_id} not exists"
+            fail "Template name: #{template_name} not exists"
         end
     end
 
@@ -67,7 +67,7 @@ class Vm
         if tmpl
             tmpl.click
             @sunstone_test.get_element_by_id("vm_template_tab-label").click
-            pre = $driver.find_element(:xpath, "//div[@id='template_template_tab']//pre")
+            pre = $driver.find_elements(:xpath, "//div[@id='vm_template_tab']//pre")[1]
             hash = @utils.check_elements_raw(pre, hash)
 
             if !hash.empty?

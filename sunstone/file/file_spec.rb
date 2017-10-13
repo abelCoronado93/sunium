@@ -47,5 +47,5 @@ RSpec.describe "File test" do
     it "Delete file" do
         @file.delete("test_context")
     end
-
+  
 end

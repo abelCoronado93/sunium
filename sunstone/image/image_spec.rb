@@ -1,6 +1,6 @@
 require './sunstone/sunstone_test'
 require './sunstone/image/Image'
-
+require 'pry'
 RSpec.describe "Image test" do
 
     before(:all) do

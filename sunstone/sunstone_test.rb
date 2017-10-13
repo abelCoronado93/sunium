@@ -2,7 +2,7 @@ require 'rubygems'
 require 'selenium-webdriver'
 require 'rspec'
 require 'headless'
-require 'pry'
+
 class SunstoneTest
 
     def initialize(auth)
@@ -25,7 +25,7 @@ class SunstoneTest
 
         wait = Selenium::WebDriver::Wait.new()
         
-        puts "Login success" if wait.until {
+        wait.until {
             element = $driver.find_element(:class, "opennebula-img")
         }
     end

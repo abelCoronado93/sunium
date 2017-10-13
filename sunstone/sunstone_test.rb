@@ -37,7 +37,7 @@ class SunstoneTest
         
         wait = Selenium::WebDriver::Wait.new(:timeout => 15)
         
-        puts "\nSign out success" if wait.until {
+        wait.until {
             element = $driver.find_element(:id, "logo_sunstone")
         }
 
@@ -74,10 +74,16 @@ class SunstoneTest
 
     def get_element_by_id(id)
         wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+        element = false
         wait.until {
-            element = $driver.find_element(:id, id)
-            return element if element.displayed?
+            begin
+                element = $driver.find_element(:id, id)
+                element.displayed?
+            rescue Selenium::WebDriver::Error::StaleElementReferenceError
+                
+            end
         }
+        return element
     end
 
     def get_element_by_name(name)

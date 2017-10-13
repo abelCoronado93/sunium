@@ -42,7 +42,7 @@ RSpec.describe "Datastore test" do
         hash ={
             info: [],
             attrs: [
-                {key: "ALLOW_ORPHANS", value: "YES"}
+                {key: "ALLOW", value: "YES"}
             ]
         }
         @ds.update("test1", "new_name" , hash)

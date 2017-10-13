@@ -1,4 +1,5 @@
 require './sunstone/Utils'
+require 'pry-rescue'
 
 class File
 
@@ -30,7 +31,7 @@ class File
         end
     end
 
-    def check(name, hash={})
+    def check(name, hash=[])
         @utils.navigate(@general_tag, @resource_tag)
         file = @utils.check_exists(2, name, @datatable)
         if file
@@ -56,21 +57,22 @@ class File
         @utils.delete_resource(name, @general_tag, @resource_tag, @datatable)
     end
 
-    def update(name, new_name, json)
+    def update(name, new_name, hash)
         @utils.navigate(@general_tag, @resource_tag)
         file = @utils.check_exists(2, name, @datatable)
         if file
+            @utils.wait_jGrowl
             file.click
             @sunstone_test.get_element_by_id("file_info_tab-label").click
             @sunstone_test.get_element_by_id("file_info_tab")
 
-            if json[:attr] && !json[:attr].empty?
-                @utils.update_attr("file_template_table", json[:attr])
+            if hash[:info] && !hash[:info].empty?
+                @utils.update_info("//div[@id='file_info_tab']//table[@class='dataTable']", hash[:info])
             end
             @utils.wait_jGrowl
 
-            if json[:info] && !json[:info].empty?
-                @utils.update_info("//div[@id='file_info_tab']//table[@class='dataTable']", json[:info])
+            if hash[:attr] && !hash[:attr].empty?
+                @utils.update_attr("file_template_table", hash[:attr])
             end
 
             if new_name != ""

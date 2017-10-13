@@ -30,18 +30,16 @@ RSpec.describe "File test" do
     end
 
     it "Check files" do
-        hash_info = [
-            {key: "Type", value: "KERNEL"}
-        ]
+        hash_info = [{key: "Type", value: "KERNEL"}]
         @file.check("test_kernel", hash_info)
     end
 
     it "Update file" do
         hash = {
             info: [{key: "Type", value: "RAMDISK"}],
-            attr: [{key: "hola", value: "adios"}]
+            attr: [{key: "ERROR", value: "ninguno"}]
         }
-        @file.update("test_kernel", "file_updated", hash)
+        @file.update("test_kernel", "", hash)
     end
 
     it "Delete file" do

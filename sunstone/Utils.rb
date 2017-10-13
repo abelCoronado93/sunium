@@ -1,5 +1,6 @@
 require './sunstone/sunstone_test'
 require 'pry'
+require 'pry-rescue'
 
 class Utils
     def initialize(sunstone_test)
@@ -39,7 +40,11 @@ class Utils
     #
     # return: tr with match
     def check_exists(num_col = 2, compare, datatable)
-        table = @sunstone_test.get_element_by_id("#{datatable}")
+        begin 
+            table = @sunstone_test.get_element_by_id(datatable) 
+        rescue Selenium::WebDriver::Error::TimeOutError
+            table = $driver.find_element(:id, datatable)
+        end
         tr_table = table.find_elements(tag_name: 'tr')
         tr_table.each { |tr|
             td = tr.find_elements(tag_name: "td")

@@ -1,12 +1,12 @@
 require './sunstone/sunstone_test'
 require './sunstone/image/Image'
-require 'pry'
+
 RSpec.describe "Image test" do
 
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -39,8 +39,8 @@ RSpec.describe "Image test" do
     it "Update image" do
         hash = {
             info: [
-                {key: "Type", value: "DATABLOCK"},
-                {key: "Persistent", value: "yes"}
+                { key: "Type", value: "DATABLOCK" },
+                { key: "Persistent", value: "yes" }
             ]
         }
         @image.update("test_os", "image_updated", hash)

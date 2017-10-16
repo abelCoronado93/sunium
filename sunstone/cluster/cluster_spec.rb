@@ -3,8 +3,6 @@ require './sunstone/cluster/Cluster'
 require './sunstone/vnet/VNet'
 require './sunstone/datastore/Datastore'
 
-require 'pry'
-
 RSpec.describe "Cluster test" do
 
     before(:all) do

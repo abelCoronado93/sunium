@@ -1,5 +1,4 @@
 require './sunstone/sunstone_test'
-require 'pry'
 
 class Utils
     def initialize(sunstone_test)
@@ -31,7 +30,7 @@ class Utils
         element = @sunstone_test.get_element_by_id("#{resource}-tabsubmit_button")
         element.find_element(:class, "submit_button").click if element.displayed?
         sleep 2
-        wait_jGrowl
+        self.wait_jGrowl
     end
 
     # num_col: datatable column number (0: id, 1: name...)
@@ -91,7 +90,7 @@ class Utils
     end
 
     def delete_resource(name, general, resource, datatable)
-        wait_jGrowl
+        self.wait_jGrowl
         self.navigate(general, resource)
         res = self.check_exists(2, name, datatable)
         if res
@@ -127,12 +126,14 @@ class Utils
     end
 
     def update_info(xpath, info)
-        table = $driver.find_element(:xpath, xpath)
-        tr_table = table.find_elements(tag_name: 'tr')
+        sleep 0.5
         info.each { |obj_attr|
             attr_element = false
+            sleep 0.5
+            table = $driver.find_element(:xpath, xpath)
+            tr_table = table.find_elements(:tag_name, "tr")
             tr_table.each { |tr|
-                td = tr.find_elements(tag_name: "td")
+                td = tr.find_elements(:tag_name, "td")
                 if td.length > 0 && td[0].text != "There is no data available"
                     if obj_attr[:key] == td[0].text
                         attr_element = tr
@@ -141,7 +142,7 @@ class Utils
                 end
             }
             if attr_element
-                td = attr_element.find_elements(tag_name: "td")[2] #edit
+                td = attr_element.find_elements(:tag_name, "td")[2] #edit
                 td.find_element(:tag_name, "i").click
                 td_value = attr_element.find_elements(tag_name: "td")[1]
                 dropdown = td_value.find_elements(:tag_name, "select")
@@ -155,7 +156,7 @@ class Utils
             else
                 fail "Information attribute not found: #{obj_attr[:key]}"
             end
-            wait_jGrowl
+            self.wait_jGrowl
         }
     end
 
@@ -172,7 +173,7 @@ class Utils
                 @sunstone_test.get_element_by_id("new_value").send_keys obj_attr[:value]
                 @sunstone_test.get_element_by_id("button_add_value").click
             end
-            wait_jGrowl
+            self.wait_jGrowl
         }
     end
 

@@ -66,13 +66,18 @@ class Image
             image.click
             @sunstone_test.get_element_by_id("image_info_tab-label").click
 
+            if new_name != ""
+                @utils.update_name(new_name)
+            end
+
             if json[:info] && !json[:info].empty?
                 @utils.update_info("//div[@id='image_info_tab']//table[@class='dataTable']", json[:info])
             end
 
-            if new_name != ""
-                @utils.update_name(new_name)
+            if json[:attr] && !json[:attr].empty?
+                @utils.update_attr("image_template_table", json[:attr])
             end
+
             @sunstone_test.get_element_by_id("#{@resource_tag}-tabback_button").click
         else
             fail "Image name: #{name} not exists"

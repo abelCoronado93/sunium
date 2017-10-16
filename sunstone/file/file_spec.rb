@@ -1,13 +1,12 @@
 require './sunstone/sunstone_test'
 require './sunstone/file/File'
-require 'pry'
 
 RSpec.describe "File test" do
 
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login

@@ -1,5 +1,4 @@
 require './sunstone/Utils'
-require 'pry-rescue'
 
 class File
 
@@ -61,22 +60,19 @@ class File
         @utils.navigate(@general_tag, @resource_tag)
         file = @utils.check_exists(2, name, @datatable)
         if file
-            @utils.wait_jGrowl
             file.click
             @sunstone_test.get_element_by_id("file_info_tab-label").click
-            @sunstone_test.get_element_by_id("file_info_tab")
+
+            if new_name != ""
+                @utils.update_name(new_name)
+            end
 
             if hash[:info] && !hash[:info].empty?
                 @utils.update_info("//div[@id='file_info_tab']//table[@class='dataTable']", hash[:info])
             end
-            @utils.wait_jGrowl
 
             if hash[:attr] && !hash[:attr].empty?
                 @utils.update_attr("file_template_table", hash[:attr])
-            end
-
-            if new_name != ""
-                @utils.update_name(new_name)
             end
 
             @sunstone_test.get_element_by_id("#{@resource_tag}-tabback_button").click

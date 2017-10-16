@@ -98,7 +98,7 @@ RSpec.describe "Template test" do
     end
 
     it "Update template" do
-        @template.navigate_update("test1")
+        @template.navigate_update("temp_basic")
         hash = { mem: "2", cpu: "0.2" }
         @template.update_general(hash)
         hash = { volatile: [{ size: "2", type: "fs", format: "qcow2" } ] }

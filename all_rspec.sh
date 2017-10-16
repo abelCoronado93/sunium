@@ -7,7 +7,9 @@ sudo rm /var/lib/one/.one/*_auth
 one start
 echo "oneadmin:opennebula" > /var/lib/one/.one/one_auth
 sunstone-server start
-
+sleep 2
+echo "CLUSTER"
+rspec sunstone/cluster/cluster_spec.rb
 echo "ACL"
 rspec sunstone/acl/acl_spec.rb
 echo "VNET"
@@ -18,8 +20,6 @@ echo "DATASTORE"
 rspec sunstone/datastore/datastore_spec.rb
 echo "HOST"
 rspec sunstone/host/host_spec.rb
-echo "CLUSTER"
-rspec sunstone/cluster/cluster_spec.rb
 echo "TEMPLATE"
 rspec sunstone/template/template_spec.rb
 echo "USER"

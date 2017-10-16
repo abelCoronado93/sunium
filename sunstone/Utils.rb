@@ -17,6 +17,7 @@ class Utils
     end
 
     def navigate(general, resource)
+        sleep 0.2
         if !$driver.find_element(:id, "#{resource}-tabcreate_buttons").displayed?
             @sunstone_test.get_element_by_id("menu-toggle").click if !$driver.find_element(:id, "li_#{general}-top-tab").displayed?
             sleep 0.5
@@ -164,9 +165,9 @@ class Utils
             attr_element = check_exists(0, obj_attr[:key], datatable_name)
             if attr_element
                 attr_element.find_element(:id, "div_edit").click
-                @sunstone_test.get_element_by_id("input_edit_#{obj_attr[:key]}").clear
-                attr_element.find_element(:id, "div_edit").click
-                @sunstone_test.get_element_by_id("input_edit_#{obj_attr[:key]}").send_keys obj_attr[:value]
+                input = @sunstone_test.get_element_by_id("input_edit_#{obj_attr[:key]}")
+                input.clear
+                input.send_keys obj_attr[:value]
             else
                 @sunstone_test.get_element_by_id("new_key").send_keys obj_attr[:key]
                 @sunstone_test.get_element_by_id("new_value").send_keys obj_attr[:value]

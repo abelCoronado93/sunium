@@ -133,6 +133,7 @@ class User
             end
 
             if hash[:groups]
+                sleep 0.1
                 @sunstone_test.get_element_by_id("user_groups_tab-label").click
                 @sunstone_test.get_element_by_id("user_groups_tab")
                 @sunstone_test.get_element_by_id("update_group").click

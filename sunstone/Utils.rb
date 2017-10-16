@@ -1,6 +1,5 @@
 require './sunstone/sunstone_test'
 require 'pry'
-require 'pry-rescue'
 
 class Utils
     def initialize(sunstone_test)

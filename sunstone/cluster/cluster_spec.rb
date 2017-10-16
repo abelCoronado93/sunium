@@ -10,7 +10,7 @@ RSpec.describe "Cluster test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login

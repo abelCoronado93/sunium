@@ -6,6 +6,7 @@ class Acl
         @general_tag = "system"
         @resource_tag = "acls"
         @sunstone_test = sunstone_test
+        @datatable = "dataTableAcls"
         @utils = Utils.new(sunstone_test)
     end
 
@@ -36,4 +37,22 @@ class Acl
 
         @utils.submit_create(@resource_tag)
     end
+
+    def delete_by_id(id)
+        @utils.wait_jGrowl
+        @utils.navigate(@general_tag, @resource_tag)
+        res = @utils.check_exists(1, id, @datatable)
+        if res
+            td = res.find_elements(tag_name: "td")[0]
+            td_input = td.find_element(:class, "check_item")
+            check = td.attribute("class")
+            td_input.click if check.nil? || check == ""
+            @sunstone_test.get_element_by_id("#{@resource_tag}-tabdelete_buttons").click
+            @sunstone_test.get_element_by_id("confirm_proceed").click
+        else
+            fail "Error delete: Resource not found"
+        end
+        sleep 2
+    end
+
 end

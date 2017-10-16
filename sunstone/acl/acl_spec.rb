@@ -6,7 +6,7 @@ RSpec.describe "Acl test" do
     before(:all) do
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -28,6 +28,10 @@ RSpec.describe "Acl test" do
             operations: ["manage"]
         }
         @acl.create("all", hash)
+    end
+
+    it "Delete acl" do
+        @acl.delete_by_id("0")
     end
 
 end

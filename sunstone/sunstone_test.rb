@@ -74,13 +74,13 @@ class SunstoneTest
 
     def get_element_by_id(id)
         wait = Selenium::WebDriver::Wait.new(:timeout => 10)
+        sleep 0.2
         element = false
         wait.until {
             begin
                 element = $driver.find_element(:id, id)
                 element.displayed?
             rescue Selenium::WebDriver::Error::StaleElementReferenceError
-                
             end
         }
         return element

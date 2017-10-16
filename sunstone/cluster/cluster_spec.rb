@@ -28,7 +28,7 @@ RSpec.describe "Cluster test" do
             tm: "dummy",
             type: "system"
         }
-        @ds.create("default", hash)
+        @ds.create("ds1", hash)
     end
 
     before(:each) do
@@ -42,7 +42,7 @@ RSpec.describe "Cluster test" do
     it "Create cluster" do
         hosts = []
         vnets = ["vnet2"]
-        ddss = ["default"]
+        ddss = ["ds1"]
         @cluster.create("cluster", hosts, vnets, ddss)
     end
 
@@ -50,7 +50,7 @@ RSpec.describe "Cluster test" do
         hash_info = {
             hosts: [],
             vnets: ["vnet2"],
-            ds: ["default"]
+            ds: ["ds1"]
         }
 
         @cluster.check("cluster", hash_info)
@@ -61,12 +61,12 @@ RSpec.describe "Cluster test" do
             tm: "dummy",
             type: "system"
         }
-        @ds.create("ds", hash_ds)
+        @ds.create("ds2", hash_ds)
 
         hash = {
             hosts: [],
             vnets: [],
-            ds: ["ds"]
+            ds: ["ds2"]
         }
         @cluster.update("cluster", hash)
     end

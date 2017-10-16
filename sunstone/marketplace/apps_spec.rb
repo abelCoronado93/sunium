@@ -8,7 +8,7 @@ RSpec.describe "Apps test" do
 
         @auth = {
             :username => "oneadmin",
-            :password => "opennebula"
+            :password => "mypassword"
         }
         @sunstone_test = SunstoneTest.new(@auth)
         @sunstone_test.login
@@ -35,11 +35,14 @@ RSpec.describe "Apps test" do
         @app.download("CoreOS alpha", "ds_apps")
     end
 
-    it "update app" do
+    it "Update app" do
         hash = [
             {key: "DESCRIPTION", value: "selenium"}
         ]
         @app.update("CoreOS alpha", "", hash)
     end
 
+    it "Delete app" do
+        @app.delete("FreeBSD 10.3")
+    end
 end
